@@ -1,5 +1,7 @@
 import { WebSocket, WebSocketServer } from "ws";
 
+const isUserAuthenticated = (userID: string): boolean => true;
+
 function main() {
   const port = 8080;
 
@@ -17,8 +19,12 @@ function main() {
 
   wewSocketServer.on("connection", (ws) => {
     console.log("New client connected");
-    clients.add(ws);
+    if (isUserAuthenticated("123")) {
+      ws.close();
+      return;
+    }
 
+    clients.add(ws);
     ws.send("Welcome to the chat!");
 
     ws.on("message", (message) => {
