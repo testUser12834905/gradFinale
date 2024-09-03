@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import App from "../../App";
-import Chat from "../../pages/chat";
+import Chat from "../../pages/Chat";
 
 type Route = {
   path: string;
