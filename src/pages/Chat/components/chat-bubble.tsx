@@ -16,7 +16,6 @@ const ChatBubble = ({ content, isMe, avatar }: Props) => {
 
   const bubbleStyle: CSSProperties = {
     backgroundColor: isMe ? token.colorPrimaryBg : token.colorFillSecondary,
-    // color: isMe ? "white" : "black",
     padding: "8px 12px",
     borderRadius: "12px",
     maxWidth: "70%",
@@ -38,9 +37,7 @@ const ChatBubble = ({ content, isMe, avatar }: Props) => {
         style={{ marginRight: isMe ? 0 : 8, marginLeft: isMe ? 8 : 0 }}
       />
       <Flex
-        // direction="vertical"
         align={isMe ? "end" : "start"}
-        // size={2}
         style={{ maxWidth: "100%" }}
         vertical
       >
