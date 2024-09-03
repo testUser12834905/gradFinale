@@ -19,7 +19,8 @@ function main() {
 
   wewSocketServer.on("connection", (ws) => {
     console.log("New client connected");
-    if (isUserAuthenticated("123")) {
+
+    if (!isUserAuthenticated("123")) {
       ws.close();
       return;
     }
