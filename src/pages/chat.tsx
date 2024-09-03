@@ -14,8 +14,10 @@ const Chat = (props: Props) => {
       }}
     >
       <Space.Compact style={{ width: "100%" }}>
-        <Input placeholder="message something" />
-        <Button type="primary">Submit</Button>
+        <Input size="large" placeholder="message something" />
+        <Button size="large" type="primary">
+          Send
+        </Button>
       </Space.Compact>
     </div>
   );
