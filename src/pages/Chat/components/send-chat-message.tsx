@@ -1,6 +1,26 @@
 import { Button, Input, Space } from "antd";
+import { useWebSocket } from "../../../lib/state/web-socket";
+import { useState } from "react";
+import type { ChatMessage } from "../../../types/chat-message";
 
 const SendChatMessage = () => {
+  const webSocket = useWebSocket((state) => state.webSocket);
+
+  const [message, setMessage] = useState<string>("");
+
+  const sendMessage = () => {
+    if (!message) return;
+
+    const chatRecord: ChatMessage = {
+      id: 1,
+      userID: 123,
+      content: message,
+      timestamp: new Date().getTime(),
+    };
+
+    webSocket?.send(JSON.stringify(chatRecord));
+  };
+
   return (
     <div
       style={{
@@ -12,8 +32,13 @@ const SendChatMessage = () => {
       }}
     >
       <Space.Compact style={{ width: "100%" }}>
-        <Input size="large" placeholder="message something" />
-        <Button size="large" type="primary">
+        <Input
+          size="large"
+          placeholder="message something"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <Button size="large" type="primary" onClick={sendMessage}>
           Send
         </Button>
       </Space.Compact>

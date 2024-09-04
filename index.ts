@@ -20,9 +20,11 @@ function main() {
 
   function broadcast(message: string, sender: WebSocket) {
     clients.forEach((client) => {
-      if (client !== sender && client.readyState === WebSocket.OPEN) {
-        client.send(message);
+      // if (client !== sender) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(globalChatHistory));
       }
+      // }
     });
   }
 
@@ -35,10 +37,11 @@ function main() {
     }
 
     clients.add(ws);
-    ws.send("Welcome to the chat!");
+    ws.send(globalChatHistory);
 
     ws.on("message", (message) => {
       console.log("Received:", message.toString());
+      globalChatHistory.push(JSON.parse(message.toString()));
       broadcast(message.toString(), ws);
     });
 

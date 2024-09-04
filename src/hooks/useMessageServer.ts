@@ -16,6 +16,8 @@ const createWebSocket = (
   };
 
   newSocket.onmessage = (event) => {
+    const ch = JSON.parse(event.data);
+    dataActions.initialize(ch);
     console.log("Message from server:", event);
   };
 
