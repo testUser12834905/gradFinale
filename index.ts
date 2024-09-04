@@ -4,7 +4,7 @@ const isUserAuthenticated = (userID: string): boolean => true;
 
 const globalChatHistory: Record<string, string>[] = [];
 
-const processWSMessage = (message: { type: string }) => {
+const processMessage = (message: { type: string }) => {
   switch (message.type) {
     case "ping":
       return "pong";

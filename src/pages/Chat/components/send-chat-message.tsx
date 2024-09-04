@@ -13,12 +13,13 @@ const SendChatMessage = () => {
 
     const chatRecord: ChatMessage = {
       id: 1,
-      userID: 123,
+      userID: Math.round(Math.random()),
       content: message,
       timestamp: new Date().getTime(),
     };
 
     webSocket?.send(JSON.stringify(chatRecord));
+    setMessage("");
   };
 
   return (
@@ -37,6 +38,7 @@ const SendChatMessage = () => {
           placeholder="message something"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onPressEnter={sendMessage}
         />
         <Button size="large" type="primary" onClick={sendMessage}>
           Send
