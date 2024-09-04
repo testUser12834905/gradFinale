@@ -37,7 +37,7 @@ function main() {
     }
 
     clients.add(ws);
-    ws.send(globalChatHistory);
+    ws.send(JSON.stringify(globalChatHistory));
 
     ws.on("message", (message) => {
       console.log("Received:", message.toString());
