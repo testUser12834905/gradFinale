@@ -5,26 +5,28 @@ const { Text } = Typography;
 
 type Props = {
   content: string;
-  isMe: boolean;
+  isCurrentUser: boolean;
   avatar: string;
 };
 
 const { useToken } = theme;
 
-const ChatBubble = ({ content, isMe, avatar }: Props) => {
+const ChatBubble = ({ content, isCurrentUser, avatar }: Props) => {
   const { token } = useToken();
 
   const bubbleStyle: CSSProperties = {
-    backgroundColor: isMe ? token.colorPrimaryBg : token.colorFillSecondary,
+    backgroundColor: isCurrentUser
+      ? token.colorPrimaryBg
+      : token.colorFillSecondary,
     padding: "8px 12px",
     borderRadius: "12px",
     maxWidth: "70%",
-    alignSelf: isMe ? "flex-end" : "flex-start",
+    alignSelf: isCurrentUser ? "flex-end" : "flex-start",
   };
 
   const containerStyle: CSSProperties = {
     display: "flex",
-    flexDirection: isMe ? "row-reverse" : "row",
+    flexDirection: isCurrentUser ? "row-reverse" : "row",
     alignItems: "flex-start",
     marginBottom: "16px",
   };
@@ -33,15 +35,18 @@ const ChatBubble = ({ content, isMe, avatar }: Props) => {
     <div style={containerStyle}>
       <Avatar
         src={avatar}
-        alt={isMe ? "User Avatar" : "Other Avatar"}
-        style={{ marginRight: isMe ? 0 : 8, marginLeft: isMe ? 8 : 0 }}
+        alt={isCurrentUser ? "User Avatar" : "Other Avatar"}
+        style={{
+          marginRight: isCurrentUser ? 0 : 8,
+          marginLeft: isCurrentUser ? 8 : 0,
+        }}
       />
       <Flex
-        align={isMe ? "end" : "start"}
+        align={isCurrentUser ? "end" : "start"}
         style={{ maxWidth: "100%" }}
         vertical
       >
-        <Text strong>{isMe ? "You" : "Other"}</Text>
+        <Text strong>{isCurrentUser ? "You" : "Other"}</Text>
         <div style={bubbleStyle}>
           <Text>{content}</Text>
         </div>

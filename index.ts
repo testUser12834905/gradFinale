@@ -2,6 +2,15 @@ import { WebSocket, WebSocketServer } from "ws";
 
 const isUserAuthenticated = (userID: string): boolean => true;
 
+const globalChatHistory: Record<string, string>[] = [];
+
+const processWSMessage = (message: { type: string }) => {
+  switch (message.type) {
+    case "ping":
+      return "pong";
+  }
+};
+
 function main() {
   const port = 8080;
 
