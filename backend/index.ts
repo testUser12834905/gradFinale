@@ -20,6 +20,9 @@ function main() {
 
   function broadcast(message: string, sender: WebSocket) {
     clients.forEach((client) => {
+      //
+      // HACK: I might wanna have a seperate state for the UI and not sending down the whole state to the UI
+      //
       // if (client !== sender) {
       if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify(globalChatHistory));
