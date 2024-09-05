@@ -1,12 +1,16 @@
 # TODO
 
-## Backend
+## Back-end
 
 - Have some sort of authentication
+  - password encryption & validation
+  - token encryption & validation
+  - EXTRAS:
+    - token blacklisting
 - Use probably express
 - WS:
-  - Figure out how to use current ws implementation with it, OR
-  - Migrate to and express WS solution
+  - Figure out how to use current ws implementation with express
+  - Migrate to an express WS solution
 - Endpoints:
   - login -> should serve a refresh token
   - refresh -> should provide a new access token
@@ -14,7 +18,7 @@
 - Have a DB layer set up for the websocket
 - Make a docker container out of this?
 
-## Frontend
+## Front-end
 
 ### Screens
 
