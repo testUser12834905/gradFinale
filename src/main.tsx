@@ -6,15 +6,21 @@ import "./index.css";
 import { allRoutes } from "./lib/constants/routes.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <MainLayout>
-      <BrowserRouter>
-        <Routes>
-          {allRoutes.map((route) => (
-            <Route path={route.path} element={route.element} key={route.path} />
-          ))}
-        </Routes>
-      </BrowserRouter>
-    </MainLayout>
-  </StrictMode>,
+  <>
+    <StrictMode>
+      <MainLayout>
+        <BrowserRouter>
+          <Routes>
+            {allRoutes.map((route) => (
+              <Route
+                path={route.path}
+                element={route.element}
+                key={route.path}
+              />
+            ))}
+          </Routes>
+        </BrowserRouter>
+      </MainLayout>
+    </StrictMode>
+  </>,
 );

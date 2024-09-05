@@ -6,9 +6,11 @@ type WebSocketState = {
 
 type WebSocketAction = {
   setWebSocket: (webSocket: WebSocketState["webSocket"]) => void;
+  closeWebSocket: () => void;
 };
 
 export const useWebSocket = create<WebSocketState & WebSocketAction>((set) => ({
   webSocket: null,
   setWebSocket: (webSocket) => set({ webSocket }),
+  closeWebSocket: () => {},
 }));
