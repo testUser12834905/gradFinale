@@ -1,6 +1,6 @@
 import { Button, Input, Space } from "antd";
-import { useWebSocket } from "../../../lib/state/web-socket";
 import { useState } from "react";
+import { useWebSocket } from "../../../lib/state/web-socket";
 import type { ChatMessage } from "../../../types/chat-message";
 
 const SendChatMessage = () => {

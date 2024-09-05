@@ -1,10 +1,9 @@
-import { StrictMode, type ReactNode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import useMessageServer from "./hooks/useMessageServer.ts";
+import MainLayout from "./components/templates/main-layout.tsx";
 import "./index.css";
 import { allRoutes } from "./lib/constants/routes.tsx";
-import MainLayout from "./components/templates/main-layout.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

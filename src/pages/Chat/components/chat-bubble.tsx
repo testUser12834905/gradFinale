@@ -1,4 +1,4 @@
-import { Avatar, Flex, Space, theme, Typography } from "antd";
+import { Avatar, Flex, theme, Typography } from "antd";
 import type { CSSProperties } from "react";
 
 const { Text } = Typography;

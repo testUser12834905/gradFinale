@@ -1,6 +1,5 @@
-import { Button, Input, Space } from "antd";
-import SendChatMessage from "./components/send-chat-message";
 import ChatBubble from "./components/chat-bubble";
+import SendChatMessage from "./components/send-chat-message";
 import useChat from "./use-chat";
 
 type Props = {};

@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import useMessageServer from "../../hooks/useMessageServer";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
