@@ -3,6 +3,8 @@ import expressWs from "express-ws";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
+import { handleWebSocketMessage } from "./websocket";
+import { Database } from "./database";
 
 interface User {
   id: string;
@@ -27,7 +29,7 @@ export default function main() {
   const REFRESH_TOKEN_SECRET = "very_secure_refresh_token_secret";
 
   // Global chat history
-  const globalChatHistory: Record<string, string>[] = [];
+  const database = new Database();
 
   // Helper function to generate tokens
   function generateTokens(user: User): {
@@ -132,24 +134,24 @@ export default function main() {
     console.log("New client connected");
 
     // Send chat history to the new client
-    ws.send(JSON.stringify(globalChatHistory));
+    ws.send(JSON.stringify(database.getFullChatHistory()));
 
     ws.on("message", (msg: string) => {
       console.log("Received:", msg.toString());
       const message = JSON.parse(msg);
 
-      if (message.type === "ping") {
-        ws.send(JSON.stringify({ type: "pong" }));
-      } else {
-        globalChatHistory.push(message);
-        // Broadcast to all clients
-        const wss = getWss();
-        wss.clients.forEach((client) => {
-          if (client.readyState === client.OPEN) {
-            client.send(JSON.stringify(globalChatHistory));
-          }
-        });
-      }
+
+      handleWebSocketMessage(message, database);
+
+      // database.addToChatHistory(message);
+      //
+      // Broadcast to all clients
+      const wss = getWss();
+      wss.clients.forEach((client) => {
+        if (client.readyState === client.OPEN) {
+          client.send(JSON.stringify(database.getFullChatHistory()));
+        }
+      });
     });
 
     ws.on("close", () => {

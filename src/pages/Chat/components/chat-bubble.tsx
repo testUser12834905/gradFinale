@@ -1,3 +1,4 @@
+import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, theme, Typography } from "antd";
 import type { CSSProperties } from "react";
 
@@ -30,19 +31,16 @@ const ChatBubble = ({ content, isCurrentUser, avatar }: Props) => {
   };
 
   return (
-    <Flex align={"flex-start"} flex={""} style={containerStyle} gap={8}>
+    <Flex align={"flex-start"} style={containerStyle} gap={8}>
       <Avatar
         src={avatar}
         alt={isCurrentUser ? "User Avatar" : "Other Avatar"}
         style={{
           flex: "none",
         }}
+        icon={<UserOutlined />}
       />
-      <Flex
-        align={isCurrentUser ? "end" : "start"}
-        // style={{ maxWidth: "100%" }}
-        vertical
-      >
+      <Flex align={isCurrentUser ? "end" : "start"} vertical>
         <Text strong style={{ marginLeft: 2, marginRight: 2 }}>
           {isCurrentUser ? "You" : "Other"}
         </Text>

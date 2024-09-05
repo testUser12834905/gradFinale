@@ -2,6 +2,7 @@ import { Button, Input, Space } from "antd";
 import { forwardRef, useState } from "react";
 import { useWebSocket } from "../../../lib/state/web-socket";
 import type { ChatMessage } from "../../../types/chat-message";
+import type { WebSocketMessage } from "../../../types/ws-message";
 
 export const MESSAGE_INPUT_MARGIN = 20;
 
@@ -13,11 +14,14 @@ const MessageInput = forwardRef<HTMLDivElement>((props, ref) => {
   const sendMessage = () => {
     if (!message) return;
 
-    const chatRecord: ChatMessage = {
-      id: 1,
-      userID: Math.round(Math.random()),
-      content: message,
-      timestamp: new Date().getTime(),
+    const chatRecord: WebSocketMessage = {
+      type: "addChatMessage",
+      data: {
+        id: 1,
+        userID: Math.round(Math.random()),
+        content: message,
+        timestamp: new Date().getTime(),
+      },
     };
 
     webSocket?.send(JSON.stringify(chatRecord));
