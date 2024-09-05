@@ -135,7 +135,7 @@ export default function main() {
     ws.send(JSON.stringify(globalChatHistory));
 
     ws.on("message", (msg: string) => {
-      console.log("Received:", msg);
+      console.log("Received:", msg.toString());
       const message = JSON.parse(msg);
 
       if (message.type === "ping") {
