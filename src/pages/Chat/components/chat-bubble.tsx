@@ -25,33 +25,32 @@ const ChatBubble = ({ content, isCurrentUser, avatar }: Props) => {
   };
 
   const containerStyle: CSSProperties = {
-    display: "flex",
+    marginTop: 20,
     flexDirection: isCurrentUser ? "row-reverse" : "row",
-    alignItems: "flex-start",
-    marginBottom: "16px",
   };
 
   return (
-    <div style={containerStyle}>
+    <Flex align={"flex-start"} flex={""} style={containerStyle} gap={8}>
       <Avatar
         src={avatar}
         alt={isCurrentUser ? "User Avatar" : "Other Avatar"}
         style={{
-          marginRight: isCurrentUser ? 0 : 8,
-          marginLeft: isCurrentUser ? 8 : 0,
+          flex: "none",
         }}
       />
       <Flex
         align={isCurrentUser ? "end" : "start"}
-        style={{ maxWidth: "100%" }}
+        // style={{ maxWidth: "100%" }}
         vertical
       >
-        <Text strong>{isCurrentUser ? "You" : "Other"}</Text>
+        <Text strong style={{ marginLeft: 2, marginRight: 2 }}>
+          {isCurrentUser ? "You" : "Other"}
+        </Text>
         <div style={bubbleStyle}>
           <Text>{content}</Text>
         </div>
       </Flex>
-    </div>
+    </Flex>
   );
 };
 

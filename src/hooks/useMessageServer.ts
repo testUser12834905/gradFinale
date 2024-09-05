@@ -36,6 +36,7 @@ const createWebSocket = (
   return newSocket;
 };
 
+// TODO: rename this to something more clear
 const useMessageServer = () => {
   const chatHistoryActions = useChatHistory(
     (state) => state.chatHistoryActions,

@@ -18,7 +18,6 @@ const Chat = (props: Props) => {
       setHeight(componentRef.current.clientHeight + 2 * MESSAGE_INPUT_MARGIN);
     }
   }, []);
-  console.log(componentRef);
 
   return (
     <>
