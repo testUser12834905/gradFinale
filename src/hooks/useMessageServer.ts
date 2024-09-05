@@ -4,6 +4,7 @@ import {
   type ChatHistoryAction,
 } from "../lib/state/chat-history";
 import { useWebSocket } from "../lib/state/web-socket";
+import type { MessageInstance } from "antd/es/message/interface";
 
 const createWebSocket = (
   url: string,
@@ -37,7 +38,7 @@ const createWebSocket = (
 };
 
 // TODO: rename this to something more clear
-const useMessageServer = () => {
+const useMessageServer = (messageApi: MessageInstance) => {
   const chatHistoryActions = useChatHistory(
     (state) => state.chatHistoryActions,
   );
@@ -60,6 +61,7 @@ const useMessageServer = () => {
 
       ws.onopen = () => {
         console.log("WebSocket connected");
+        messageApi.info("WebScoekt connection is established!");
         setWebSocket(ws);
       };
       ws.onclose = (event) => {
