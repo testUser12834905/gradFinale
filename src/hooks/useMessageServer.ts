@@ -61,7 +61,7 @@ const useMessageServer = (messageApi: MessageInstance) => {
 
       ws.onopen = () => {
         console.log("WebSocket connected");
-        messageApi.info("WebScoekt connection is established!");
+        messageApi.info("WebScoekt connection is established!", 0.8);
         setWebSocket(ws);
       };
       ws.onclose = (event) => {
