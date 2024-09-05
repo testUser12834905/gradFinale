@@ -1,9 +1,11 @@
 import { Button, Input, Space } from "antd";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { useWebSocket } from "../../../lib/state/web-socket";
 import type { ChatMessage } from "../../../types/chat-message";
 
-const SendChatMessage = () => {
+export const MESSAGE_INPUT_MARGIN = 20;
+
+const MessageInput = forwardRef<HTMLDivElement>((props, ref) => {
   const webSocket = useWebSocket((state) => state.webSocket);
 
   const [message, setMessage] = useState<string>("");
@@ -24,8 +26,9 @@ const SendChatMessage = () => {
 
   return (
     <div
+      ref={ref}
       style={{
-        bottom: 20,
+        bottom: MESSAGE_INPUT_MARGIN,
         position: "fixed",
         left: "50%",
         transform: "translateX(-50%)",
@@ -46,6 +49,6 @@ const SendChatMessage = () => {
       </Space.Compact>
     </div>
   );
-};
+});
 
-export default SendChatMessage;
+export default MessageInput;

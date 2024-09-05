@@ -1,5 +1,8 @@
+import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./components/chat-bubble";
-import SendChatMessage from "./components/send-chat-message";
+import MessageInput, {
+  MESSAGE_INPUT_MARGIN,
+} from "./components/send-chat-message";
 import useChat from "./use-chat";
 
 type Props = {};
@@ -7,16 +10,28 @@ type Props = {};
 const Chat = (props: Props) => {
   const chatHistory = useChat();
 
+  const componentRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (componentRef.current) {
+      setHeight(componentRef.current.clientHeight + 2 * MESSAGE_INPUT_MARGIN);
+    }
+  }, []);
+  console.log(componentRef);
+
   return (
     <>
-      {chatHistory.map((message, index) => (
-        <ChatBubble
-          key={index}
-          content={message.content}
-          isCurrentUser={!!message.userID}
-          avatar={""}
-        />
-      ))}
+      <div style={{ marginBottom: height }}>
+        {chatHistory.map((message, index) => (
+          <ChatBubble
+            key={index}
+            content={message.content}
+            isCurrentUser={!!message.userID}
+            avatar={""}
+          />
+        ))}
+      </div>
       {/* <ChatBubble */}
       {/*   content="Hello, how are you?" */}
       {/*   isCurrentUser={false} */}
@@ -28,7 +43,7 @@ const Chat = (props: Props) => {
       {/*   avatar="https://example.com/user-avatar.png" */}
       {/* /> */}
 
-      <SendChatMessage />
+      <MessageInput ref={componentRef} />
     </>
   );
 };
