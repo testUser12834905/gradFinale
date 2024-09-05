@@ -12,5 +12,9 @@ type WebSocketAction = {
 export const useWebSocket = create<WebSocketState & WebSocketAction>((set) => ({
   webSocket: null,
   setWebSocket: (webSocket) => set({ webSocket }),
-  closeWebSocket: () => {},
+  closeWebSocket: () =>
+    set((state) => {
+      state.webSocket?.close();
+      return { webSocket: null };
+    }),
 }));

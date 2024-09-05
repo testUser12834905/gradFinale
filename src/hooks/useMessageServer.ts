@@ -45,19 +45,14 @@ const useMessageServer = (messageApi: MessageInstance) => {
 
   const webSocket = useWebSocket((state) => state.webSocket);
   const setWebSocket = useWebSocket((state) => state.setWebSocket);
-  const webSocketRef = useRef<WebSocket | null>(null);
+  const closeWebSocket = useWebSocket((state) => state.closeWebSocket);
 
   const webSocketUrl = "ws://localhost:8080";
   console.log("wtf: ", webSocketUrl);
 
   const initializeWebSocket = useCallback(() => {
-    if (webSocket !== null && webSocket.readyState === WebSocket.OPEN) {
-      webSocketRef.current = webSocket;
-    }
-
-    if (!webSocket && !webSocketRef.current) {
+    if (!webSocket) {
       const ws = createWebSocket(webSocketUrl, chatHistoryActions);
-      webSocketRef.current = ws;
 
       ws.onopen = () => {
         console.log("WebSocket connected");
@@ -73,21 +68,14 @@ const useMessageServer = (messageApi: MessageInstance) => {
           console.error("Connection died");
         }
 
-        setWebSocket(null);
-
-        webSocketRef.current = null;
+        closeWebSocket();
       };
     }
 
     return () => {
-      if (webSocketRef.current) {
-        console.log("Closing WebSocket");
-        webSocketRef.current.close();
-        setWebSocket(null);
-        webSocketRef.current = null;
-      }
+      closeWebSocket();
     };
-  }, [webSocket, setWebSocket, webSocketUrl]);
+  }, [setWebSocket, webSocketUrl]);
 
   useEffect(() => {
     const cleanup = initializeWebSocket();
