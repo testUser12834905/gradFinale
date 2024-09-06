@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Chat from "../../features/chat/ChatPage";
+import { pages } from "./pages";
 
 type Route = {
   path: string;
@@ -7,7 +7,7 @@ type Route = {
 };
 
 const protectedRoutes: Route[] = [
-  { path: "chat", element: <Chat /> },
+  { path: "chat", element: pages.Chat },
   { path: "/logout", element: <></> },
 ];
 
