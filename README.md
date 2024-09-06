@@ -1,15 +1,41 @@
-# gradfinale
+# GradFinale
 
-To install dependencies:
+## Prerequisite
+
+Install `bun` globally:
+
+```bash
+npm install -g bun
+```
+
+Install the dependencies:
 
 ```bash
 bun install
 ```
 
-To run:
+## Run the project
+
+To run both the backend and the frontend, use the following command:
 
 ```bash
-bun run index.ts
+bun run dev
+# OR
+npm run dev
 ```
 
-This project was created using `bun init` in bun v1.1.17. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+To run just the backend:
+
+```bash
+bun run dev-ws
+# OR
+npm run dev-ws
+```
+
+To run just the frontend:
+
+```bash
+bun run dev-app
+# OR
+npm run dev-app
+```
