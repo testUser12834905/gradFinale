@@ -4,8 +4,7 @@ import type { Database } from "./database";
 export const handleWebSocketMessage = (
   message: WebSocketMessage,
   database: Database,
-) => {
-  console.log("fsdf", message);
+): void => {
   switch (message.type) {
     case "addChatMessage":
       database.addToChatHistory(message.data);

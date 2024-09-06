@@ -86,6 +86,8 @@ export default function startServer() {
       //
       // Broadcast to all clients
       const wss = getWss();
+
+      // HACK: why does client have no type???
       wss.clients.forEach((client) => {
         if (client.readyState === client.OPEN) {
           client.send(JSON.stringify(database.getFullChatHistory()));
