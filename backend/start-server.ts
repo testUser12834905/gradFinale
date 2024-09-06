@@ -17,7 +17,7 @@ interface TokenPayload {
   username: string;
 }
 
-export default function main() {
+export default function startServer() {
   const { app, getWss } = expressWs(express());
   app.use(express.json());
 

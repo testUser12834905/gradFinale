@@ -1,3 +1,7 @@
-import main from "./start-server";
+import startServer from "./start-server";
+
+function main() {
+  startServer();
+}
 
 main();
