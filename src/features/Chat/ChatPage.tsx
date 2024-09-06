@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import ChatBubble from "./components/chat-bubble";
 import MessageInput from "./components/send-chat-message";
-import useChat from "./use-chat";
+import useChat from "./hooks/use-chat";
+import useChatUIEffects from "./hooks/use-chat-ui-effects";
 
 const Chat = () => {
+  const { chatHistory } = useChat();
   const componentRef = useRef<HTMLDivElement>(null);
-  const { chatHistory, height } = useChat(componentRef);
+  const { height } = useChatUIEffects(componentRef);
 
   return (
     <>

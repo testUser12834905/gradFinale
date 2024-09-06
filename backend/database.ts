@@ -1,4 +1,4 @@
-import type { ChatMessage } from "../src/types/chat-message";
+import type { ChatMessage } from "../shared/types/chat-message";
 
 export class Database {
   chatHistory: ChatMessage[];

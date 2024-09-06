@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useChatHistory } from "../../lib/state/chat-history";
-import { MESSAGE_INPUT_MARGIN } from "./components/send-chat-message";
+import { useChatHistory } from "../../../lib/state/chat-history";
+import { MESSAGE_INPUT_MARGIN } from "../components/send-chat-message";
 
-const useChat = (ref: React.RefObject<HTMLDivElement>) => {
+const useChatUIEffects = (ref: React.RefObject<HTMLDivElement>) => {
   const chatHistory = useChatHistory((state) => state.chatHistory);
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
@@ -20,7 +20,7 @@ const useChat = (ref: React.RefObject<HTMLDivElement>) => {
     }
   }, []);
 
-  return { chatHistory, height };
+  return { height };
 };
 
-export default useChat;
+export default useChatUIEffects;

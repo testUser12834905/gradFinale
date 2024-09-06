@@ -1,8 +1,8 @@
 import { Button, Input, Space } from "antd";
 import { forwardRef, useState } from "react";
 import { useWebSocket } from "../../../lib/state/web-socket";
-import type { ChatMessage } from "../../../types/chat-message";
-import type { WebSocketMessage } from "../../../types/ws-message";
+import type { ChatMessage } from "../../../../shared/types/chat-message";
+import type { WebSocketMessage } from "../../../../shared/types/ws-message";
 
 export const MESSAGE_INPUT_MARGIN = 20;
 

@@ -1,4 +1,4 @@
-import type { WebSocketMessage } from "../src/types/ws-message";
+import type { WebSocketMessage } from "../shared/types/ws-message";
 import type { Database } from "./database";
 
 export const handleWebSocketMessage = (

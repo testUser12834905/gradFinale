@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ChatMessage } from "../../types/chat-message";
+import type { ChatMessage } from "../../../shared/types/chat-message";
 
 type ChatHistoryState = {
   chatHistory: ChatMessage[];
