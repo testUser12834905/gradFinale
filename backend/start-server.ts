@@ -5,17 +5,11 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { Database } from "./database";
 import { handleWebSocketMessage } from "./websocket";
-
-interface User {
-  id: string;
-  username: string;
-  password: string;
-}
-
-interface TokenPayload {
-  userId: string;
-  username: string;
-}
+import type { TokenPayload, User } from "./auth/generate-tokens";
+import generateTokens from "./auth/generate-tokens";
+import authenticateToken from "./auth/authenticate-token";
+import { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } from "./auth/constsnts";
+import { verifyRefreshToken } from "./auth/verify-token";
 
 export default function startServer() {
   const { app, getWss } = expressWs(express());
@@ -23,47 +17,8 @@ export default function startServer() {
 
   const users: User[] = [];
 
-  // Secret keys for JWT
-  const ACCESS_TOKEN_SECRET = "very_secure_access_token_secret";
-  const REFRESH_TOKEN_SECRET = "very_secure_refresh_token_secret";
-
   // Global chat history
   const database = new Database();
-
-  function generateTokens(user: User): {
-    accessToken: string;
-    refreshToken: string;
-  } {
-    const payload: TokenPayload = { userId: user.id, username: user.username };
-    const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-      expiresIn: "15m",
-    });
-    const refreshToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, {
-      expiresIn: "7d",
-    });
-    return { accessToken, refreshToken };
-  }
-
-  function authenticateToken(
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
-  ) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-
-    if (!token) {
-      return res.sendStatus(401);
-    }
-
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      req.user = user as TokenPayload;
-      next();
-    });
-  }
 
   app.post("/register", async (req, res) => {
     const { username, password } = req.body;
@@ -102,20 +57,13 @@ export default function startServer() {
       return res.sendStatus(401);
     }
 
-    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
+    const accessToken = verifyRefreshToken(refreshToken);
 
-      const userData = user as TokenPayload;
-      const accessToken = jwt.sign(
-        { userId: userData.userId, username: userData.username },
-        ACCESS_TOKEN_SECRET,
-        { expiresIn: "15m" },
-      );
+    if (!accessToken) {
+      return;
+    }
 
-      res.json({ accessToken });
-    });
+    res.json({ accessToken });
   });
 
   app.get("/protected", authenticateToken, (req, res) => {
