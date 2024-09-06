@@ -18,9 +18,9 @@ type WebSocketAction = {
 
 const createWebSocket = (
   url: string,
-  dataActions: ChatHistoryAction["chatHistoryActions"],
+  chatHistoryActions: ChatHistoryAction["chatHistoryActions"],
   messageApi: MessageInstance,
-) => {
+): WebSocket => {
   const newSocket = new WebSocket(url);
 
   newSocket.onopen = () => {
@@ -29,8 +29,8 @@ const createWebSocket = (
   };
 
   newSocket.onmessage = (event) => {
-    const ch = JSON.parse(event.data);
-    dataActions.initialize(ch);
+    const chatHistory = JSON.parse(event.data);
+    chatHistoryActions.initialize(chatHistory);
     console.log("Message from server:", event);
   };
 
@@ -38,7 +38,7 @@ const createWebSocket = (
   //   messageApi.error("WebSocket error", 0.8);
   // };
 
-  newSocket.onclose = (event) => {
+  newSocket.onclose = (event): void => {
     if (event.wasClean) {
       messageApi.warning(
         `Closed cleanly, code=${event.code}, reason=${event.reason}`,
@@ -58,7 +58,7 @@ export const useWebSocket = create<WebSocketState & WebSocketAction>((set) => ({
     messageApi: MessageInstance,
     url: string,
     dataActions: ChatHistoryAction["chatHistoryActions"],
-  ) =>
+  ): void =>
     set((state) => {
       if (state.webSocket) {
         return {};
@@ -66,14 +66,14 @@ export const useWebSocket = create<WebSocketState & WebSocketAction>((set) => ({
       const ws = createWebSocket(url, dataActions, messageApi);
       return { webSocket: ws };
     }),
-  setWebSocket: (webSocket) =>
+  setWebSocket: (webSocket): void =>
     set((state) => {
       if (state.webSocket) {
         return {};
       }
       return { webSocket };
     }),
-  closeWebSocket: (messageApi: MessageInstance) =>
+  closeWebSocket: (messageApi: MessageInstance): void =>
     set((state) => {
       console.log("fsdfs", state.webSocket);
       messageApi.warning("WebSocket connection was closed!", 0.8);
