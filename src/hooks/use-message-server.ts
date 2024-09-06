@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
-import {
-  useChatHistory,
-  type ChatHistoryAction,
-} from "../lib/state/chat-history";
-import { useWebSocket } from "../lib/state/web-socket";
 import type { MessageInstance } from "antd/es/message/interface";
+import { useCallback, useEffect } from "react";
+import { useChatHistory } from "../lib/state/chat-history";
+import { useWebSocket } from "../lib/state/web-socket";
 
 // TODO: rename this to something more clear
 const useMessageServer = (messageApi: MessageInstance) => {

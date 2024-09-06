@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import useMessageServer from "../../hooks/useMessageServer";
+import useMessageServer from "../../hooks/use-message-server";
 import { message } from "antd";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
