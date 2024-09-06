@@ -21,17 +21,15 @@ export default function main() {
   const { app, getWss } = expressWs(express());
   app.use(express.json());
 
-  // In-memory user store (replace with a database in production)
   const users: User[] = [];
 
-  // Secret keys for JWT (use environment variables in production)
+  // Secret keys for JWT
   const ACCESS_TOKEN_SECRET = "very_secure_access_token_secret";
   const REFRESH_TOKEN_SECRET = "very_secure_refresh_token_secret";
 
   // Global chat history
   const database = new Database();
 
-  // Helper function to generate tokens
   function generateTokens(user: User): {
     accessToken: string;
     refreshToken: string;
@@ -46,7 +44,6 @@ export default function main() {
     return { accessToken, refreshToken };
   }
 
-  // Middleware to validate access token
   function authenticateToken(
     req: express.Request,
     res: express.Response,
@@ -68,7 +65,6 @@ export default function main() {
     });
   }
 
-  // Register a new user
   app.post("/register", async (req, res) => {
     const { username, password } = req.body;
 
@@ -87,7 +83,6 @@ export default function main() {
     res.status(201).json({ message: "User created successfully" });
   });
 
-  // Login
   app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
@@ -100,7 +95,6 @@ export default function main() {
     res.json(tokens);
   });
 
-  // Refresh token
   app.post("/refresh-token", (req, res) => {
     const { refreshToken } = req.body;
 
@@ -124,12 +118,10 @@ export default function main() {
     });
   });
 
-  // Protected route example
   app.get("/protected", authenticateToken, (req, res) => {
     res.json({ message: "This is a protected route", user: req.user });
   });
 
-  // WebSocket route
   app.ws("/", (ws, req) => {
     console.log("New client connected");
 
@@ -139,7 +131,6 @@ export default function main() {
     ws.on("message", (msg: string) => {
       console.log("Received:", msg.toString());
       const message = JSON.parse(msg);
-
 
       handleWebSocketMessage(message, database);
 
