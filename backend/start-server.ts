@@ -1,10 +1,10 @@
+import bcrypt from "bcrypt";
 import express from "express";
 import expressWs from "express-ws";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-import { handleWebSocketMessage } from "./websocket";
 import { Database } from "./database";
+import { handleWebSocketMessage } from "./websocket";
 
 interface User {
   id: string;
