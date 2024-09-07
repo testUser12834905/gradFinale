@@ -1,15 +1,13 @@
 import bcrypt from "bcrypt";
 import express from "express";
 import expressWs from "express-ws";
-import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
+import authenticateToken from "./auth/authenticate-token";
+import type { User } from "./auth/generate-tokens";
+import generateTokens from "./auth/generate-tokens";
+import { verifyRefreshToken } from "./auth/verify-token";
 import { Database } from "./database";
 import { handleWebSocketMessage } from "./websocket";
-import type { TokenPayload, User } from "./auth/generate-tokens";
-import generateTokens from "./auth/generate-tokens";
-import authenticateToken from "./auth/authenticate-token";
-import { REFRESH_TOKEN_SECRET, ACCESS_TOKEN_SECRET } from "./auth/constsnts";
-import { verifyRefreshToken } from "./auth/verify-token";
 
 export default function startServer() {
   const { app, getWss } = expressWs(express());
