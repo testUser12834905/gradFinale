@@ -17,6 +17,7 @@ export const handleWebSocketMessage = (
 export const authenticateConnection = (
   message: WebSocketMessage,
   targetConnection: ws.WebSocket,
+  timeoutId: Timer,
 ): boolean => {
   const connection = Array.from(connections).find(
     (item) => item.connection === targetConnection,
@@ -28,6 +29,7 @@ export const authenticateConnection = (
 
   if (message.type === "authorize") {
     // authenticate the token
+    clearTimeout(timeoutId);
     return true;
   } else {
     targetConnection.close();

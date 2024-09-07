@@ -3,25 +3,33 @@ import { authenticateConnection, handleWebSocketMessage } from "./message";
 import type { Database } from "../database";
 import type ws from "ws";
 import broadcastMessage from "./broadcast";
+import { sendInitialState } from "./send";
 
-export const connections: Set<{
+type ConnectionItem = {
   connection: ws.WebSocket;
   authorized: boolean;
-}> = new Set();
+};
+
+export const connections: Set<ConnectionItem> = new Set();
 
 export default function openWebSocket(
   app: expressWs.Application,
   database: Database,
 ) {
   app.ws("/", (connection, req) => {
-    connections.add({ connection, authorized: false });
+    const connectionItem = { connection, authorized: false };
 
-    connection.send(JSON.stringify(database.getFullChatHistory()));
+    const timeoutId = setTimeout(() => {
+      // delete connection
+    }, 10000); // 10 seconds
+
+    connections.add(connectionItem);
+    sendInitialState(connection, database);
 
     connection.on("message", (msg: string) => {
       const message = JSON.parse(msg);
 
-      const authorized = authenticateConnection(message, connection);
+      const authorized = authenticateConnection(message, connection, timeoutId);
       if (!authorized) {
         return;
       }
