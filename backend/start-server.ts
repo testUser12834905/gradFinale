@@ -7,7 +7,7 @@ import type { User } from "./auth/generate-tokens";
 import generateTokens from "./auth/generate-tokens";
 import { verifyRefreshToken } from "./auth/verify-token";
 import { Database } from "./database";
-import { handleWebSocketMessage } from "./websocket";
+import openWebSocket from "./web-socket";
 
 export default function startServer() {
   const { app, getWss } = expressWs(express());
@@ -74,35 +74,7 @@ export default function startServer() {
     res.json({ message: "This is a protected route", user: res.locals.user });
   });
 
-  app.ws("/", (ws, req) => {
-    console.log("New client connected");
-
-    // Send chat history to the new client
-    ws.send(JSON.stringify(database.getFullChatHistory()));
-
-    ws.on("message", (msg: string) => {
-      console.log("Received:", msg.toString());
-      const message = JSON.parse(msg);
-
-      handleWebSocketMessage(message, database);
-
-      // database.addToChatHistory(message);
-      //
-      // Broadcast to all clients
-      const wss = getWss();
-
-      // HACK: why does client have no type???
-      wss.clients.forEach((client) => {
-        if (client.readyState === client.OPEN) {
-          client.send(JSON.stringify(database.getFullChatHistory()));
-        }
-      });
-    });
-
-    ws.on("close", () => {
-      console.log("Client disconnected");
-    });
-  });
+  openWebSocket(app, database);
 
   const PORT = 8080;
   app.listen(PORT, () => {
