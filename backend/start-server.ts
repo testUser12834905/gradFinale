@@ -71,7 +71,7 @@ export default function startServer() {
   });
 
   app.get("/protected", authenticateToken, (req, res) => {
-    res.json({ message: "This is a protected route", user: req.user });
+    res.json({ message: "This is a protected route", user: res.locals.user });
   });
 
   app.ws("/", (ws, req) => {

@@ -20,7 +20,8 @@ export default function authenticateToken(
     if (err) {
       return res.sendStatus(403);
     }
-    req.user = user as TokenPayload;
+    res.locals.user = user as TokenPayload;
+
     next();
   });
 }
