@@ -1,11 +1,11 @@
 import type expressWs from "express-ws";
 import { v4 as uuidv4 } from "uuid";
 import type ws from "ws";
+import { SECOND } from "../../shared/consts/measurement";
 import type { Database } from "../database";
 import broadcastMessage from "./broadcast";
 import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
-import { SECOND } from "../../shared/consts/measurement";
 
 type ConnectionItem = {
   connection: ws.WebSocket;

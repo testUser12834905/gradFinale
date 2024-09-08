@@ -1,4 +1,3 @@
-import type ws from "ws";
 import { openConections } from ".";
 import type { WebSocketMessage } from "../../shared/types/ws-message";
 import type { Database } from "../database";

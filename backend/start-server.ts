@@ -10,7 +10,7 @@ import { Database } from "./database";
 import openWebSocket from "./web-socket";
 
 export default function startServer() {
-  const { app, getWss } = expressWs(express());
+  const { app } = expressWs(express());
   app.use(express.json());
 
   const users: User[] = [];
