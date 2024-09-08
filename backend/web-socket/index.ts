@@ -5,8 +5,7 @@ import type { Database } from "../database";
 import broadcastMessage from "./broadcast";
 import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
-
-const SECOND = 1000;
+import { SECOND } from "../../shared/consts/measurement";
 
 type ConnectionItem = {
   connection: ws.WebSocket;
