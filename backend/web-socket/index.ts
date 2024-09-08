@@ -1,16 +1,19 @@
 import type expressWs from "express-ws";
-import { authenticateConnection, handleWebSocketMessage } from "./message";
-import type { Database } from "../database";
+import { v4 as uuidv4 } from "uuid";
 import type ws from "ws";
+import type { Database } from "../database";
 import broadcastMessage from "./broadcast";
+import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
+
+const SECOND = 1000;
 
 type ConnectionItem = {
   connection: ws.WebSocket;
   authorized: boolean;
 };
 
-export const connections: Set<ConnectionItem> = new Set();
+export const openConections: Map<string, ConnectionItem> = new Map();
 
 export default function openWebSocket(
   app: expressWs.Application,
@@ -18,18 +21,30 @@ export default function openWebSocket(
 ) {
   app.ws("/", (connection, req) => {
     const connectionItem = { connection, authorized: false };
+    const connectionId = uuidv4();
 
     const timeoutId = setTimeout(() => {
-      // delete connection
-    }, 10000); // 10 seconds
+      const openConnection = openConections.get(connectionId);
 
-    connections.add(connectionItem);
+      if (openConnection?.authorized) {
+        return;
+      }
+
+      openConnection?.connection.close();
+      openConections.delete(connectionId);
+    }, 10 * SECOND);
+
+    openConections.set(connectionId, connectionItem);
     sendInitialState(connection, database);
 
     connection.on("message", (msg: string) => {
       const message = JSON.parse(msg);
 
-      const authorized = authenticateConnection(message, connection, timeoutId);
+      const authorized = authenticateConnection(
+        message,
+        connectionId,
+        timeoutId,
+      );
       if (!authorized) {
         return;
       }

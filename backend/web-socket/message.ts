@@ -1,5 +1,5 @@
 import type ws from "ws";
-import { connections } from ".";
+import { openConections } from ".";
 import type { WebSocketMessage } from "../../shared/types/ws-message";
 import type { Database } from "../database";
 
@@ -16,14 +16,12 @@ export const handleWebSocketMessage = (
 
 export const authenticateConnection = (
   message: WebSocketMessage,
-  targetConnection: ws.WebSocket,
+  connectionId: string,
   timeoutId: Timer,
 ): boolean => {
-  const connection = Array.from(connections).find(
-    (item) => item.connection === targetConnection,
-  );
+  const openConnection = openConections.get(connectionId);
 
-  if (connection?.authorized) {
+  if (openConnection?.authorized) {
     return true;
   }
 
@@ -32,9 +30,9 @@ export const authenticateConnection = (
     clearTimeout(timeoutId);
     return true;
   } else {
-    targetConnection.close();
-    if (connection) {
-      connections.delete(connection);
+    openConnection?.connection.close();
+    if (openConnection) {
+      openConections.delete(connectionId);
     }
     return false;
   }
