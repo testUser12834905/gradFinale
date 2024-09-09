@@ -5,7 +5,9 @@
   "scripts": {
     "dev-ws": "bun --watch backend/index.ts",
     "dev-app": "bunx vite",
-    "dev": "bun run dev-ws & bun run dev-app"
+    "dev": "bun run dev-ws & bun run dev-app",
+    "build": "vite build",
+    "preview": "serve -s dist"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

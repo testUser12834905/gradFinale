@@ -1,5 +1,8 @@
 # GradFinale
 
+> [!NOTE]\
+> `bun` and `npm` command should be able to used interchangeably once `bun` is installed
+
 ## Prerequisite
 
 Install `bun` globally:
@@ -38,4 +41,24 @@ To run just the frontend:
 bun run dev-app
 # OR
 npm run dev-app
+```
+
+## Preview
+
+You'll need serve to be installed
+
+```bash
+npm install -g serve
+```
+
+Make a production build:
+
+```bash
+npm run build
+```
+
+Now you should be able to run in preview:
+
+```bash
+npm run preview
 ```
