@@ -3,9 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev-ws": "bun --watch backend/index.ts",
+    "dev-backend": "bun --watch backend/index.ts",
     "dev-app": "bunx vite",
-    "dev": "bun run dev-ws & bun run dev-app",
+    "dev": "bun run dev-backend & bun run dev-app",
     "build": "vite build",
     "preview": "serve -s dist"
   },

@@ -30,9 +30,9 @@ npm run dev
 To run just the backend:
 
 ```bash
-bun run dev-ws
+bun run dev-backend
 # OR
-npm run dev-ws
+npm run dev-backend
 ```
 
 To run just the frontend:
