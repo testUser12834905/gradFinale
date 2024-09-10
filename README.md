@@ -22,24 +22,18 @@ bun install
 To run both the backend and the frontend, use the following command:
 
 ```bash
-bun run dev
-# OR
 npm run dev
 ```
 
 To run just the backend:
 
 ```bash
-bun run dev-backend
-# OR
 npm run dev-backend
 ```
 
 To run just the frontend:
 
 ```bash
-bun run dev-app
-# OR
 npm run dev-app
 ```
 
