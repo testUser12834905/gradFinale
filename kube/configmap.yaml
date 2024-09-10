@@ -5,8 +5,10 @@ metadata:
 data:
   default.conf: |
     server {
-      listen 80;
-      location / {
-        return 200 'Hello from nginx!';
-      }
-    }
+          listen 80;
+          location / {
+            proxy_pass http://frontend-service:80;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+          }
+        }
