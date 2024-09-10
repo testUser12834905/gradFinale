@@ -36,4 +36,4 @@ spec:
         - name: backend
           image: testuser12348209/kube-finale-backend:${BUDDY_EXECUTION_REVISION_SHORT}
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
