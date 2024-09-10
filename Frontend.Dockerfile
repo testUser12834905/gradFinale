@@ -1,19 +1,25 @@
-FROM node:18-alpine
+FROM node:18-alpine AS build
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm ci
-
-RUN npm i -g serve
 
 COPY . .
 
+ARG VITE_ENV=production
+ENV VITE_ENV=$VITE_ENV
+
 RUN npm run build
 
-ENV NODE_ENV=production
-ENV VITE_ENV=production
+FROM node:18-alpine AS serve
+
+WORKDIR /app
+
+RUN npm install -g serve
+
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 
-CMD [ "serve", "-s", "dist" ]
+CMD ["serve", "-s", "dist", "-l", "3000"]
