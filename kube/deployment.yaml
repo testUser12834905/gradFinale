@@ -23,7 +23,7 @@ spec:
       volumes:
         - name: nginx-config
           configMap:
-            name: nginx-config-
+            name: nginx-config
 ---
 apiVersion: apps/v1
 kind: Deployment
