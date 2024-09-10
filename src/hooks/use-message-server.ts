@@ -3,12 +3,15 @@ import { useCallback, useEffect } from "react";
 import { useChatHistory } from "../lib/state/chat-history";
 import { useWebSocket } from "../lib/state/web-socket";
 import config from "../lib/utils/config";
+import { useAuthorizationStore } from "../lib/state/authorize";
 
 // TODO: rename this to something more clear
 const useMessageServer = (messageApi: MessageInstance) => {
   const chatHistoryActions = useChatHistory(
     (state) => state.chatHistoryActions,
   );
+
+  const accessToken = useAuthorizationStore((state) => state.accessToken);
 
   const webSocket = useWebSocket((state) => state.webSocket);
   const createWebSocket = useWebSocket((state) => state.createWebSocket);
@@ -18,7 +21,12 @@ const useMessageServer = (messageApi: MessageInstance) => {
 
   const initializeWebSocket = useCallback(() => {
     if (!webSocket) {
-      createWebSocket(messageApi, webSocketUrl, chatHistoryActions);
+      createWebSocket(
+        messageApi,
+        webSocketUrl,
+        chatHistoryActions,
+        `Bearer ${accessToken}`,
+      );
     }
 
     return () => {

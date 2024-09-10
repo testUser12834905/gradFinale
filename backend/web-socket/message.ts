@@ -18,21 +18,28 @@ export const authenticateConnection = (
   connectionId: string,
   timeoutId: Timer,
 ): boolean => {
+  let isSucces = false;
+
   const openConnection = openConections.get(connectionId);
 
   if (openConnection?.authorized) {
-    return true;
+    isSucces = true;
+    return isSucces;
   }
 
   if (message.type === "authorize") {
     // authenticate the token
+    console.log("auth token from client", message.bearerToken);
     clearTimeout(timeoutId);
-    return true;
+
+    isSucces = true;
+    return isSucces;
   } else {
     openConnection?.connection.close();
     if (openConnection) {
       openConections.delete(connectionId);
     }
-    return false;
+    isSucces = false;
+    return isSucces;
   }
 };

@@ -12,6 +12,7 @@ type WebSocketAction = {
     messageApi: MessageInstance,
     webSocketUrl: string,
     chatHistoryActions: ChatHistoryAction["chatHistoryActions"],
+    bearToken: string,
   ) => void;
   closeWebSocket: (messageApi: MessageInstance) => void;
 };
@@ -20,11 +21,14 @@ const createWebSocket = (
   url: string,
   chatHistoryActions: ChatHistoryAction["chatHistoryActions"],
   messageApi: MessageInstance,
+  bearerToken: string,
 ): WebSocket => {
   const newSocket = new WebSocket(url);
 
   newSocket.onopen = () => {
-    console.log("WebSocket connected");
+    newSocket.send(
+      JSON.stringify({ type: "authorize", bearerToken: "Bear_token" }),
+    );
     messageApi.success("WebSocket connected", 0.8);
   };
 
@@ -58,12 +62,13 @@ export const useWebSocket = create<WebSocketState & WebSocketAction>((set) => ({
     messageApi: MessageInstance,
     url: string,
     dataActions: ChatHistoryAction["chatHistoryActions"],
+    bearToken: string,
   ): void =>
     set((state) => {
       if (state.webSocket) {
         return {};
       }
-      const ws = createWebSocket(url, dataActions, messageApi);
+      const ws = createWebSocket(url, dataActions, messageApi, bearToken);
       return { webSocket: ws };
     }),
   setWebSocket: (webSocket): void =>
