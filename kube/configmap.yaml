@@ -6,16 +6,7 @@ data:
   default.conf: |
     server {
       listen 80;
-
       location / {
-        proxy_pass http://frontend-service:80;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-      }
-
-      location /api {
-        proxy_pass http://backend-service:5000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
+        return 200 'Hello from nginx!';
       }
     }
