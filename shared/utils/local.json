@@ -1,0 +1,4 @@
+{
+  "backendWebSocket": "ws://localhost:8080/api",
+  "backendEndPoint": "http://localhost:8080/api"
+}

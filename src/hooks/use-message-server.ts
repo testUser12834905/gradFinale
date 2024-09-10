@@ -2,6 +2,7 @@ import type { MessageInstance } from "antd/es/message/interface";
 import { useCallback, useEffect } from "react";
 import { useChatHistory } from "../lib/state/chat-history";
 import { useWebSocket } from "../lib/state/web-socket";
+import config from "../lib/utils/config";
 
 // TODO: rename this to something more clear
 const useMessageServer = (messageApi: MessageInstance) => {
@@ -13,8 +14,7 @@ const useMessageServer = (messageApi: MessageInstance) => {
   const createWebSocket = useWebSocket((state) => state.createWebSocket);
   const closeWebSocket = useWebSocket((state) => state.closeWebSocket);
 
-  // TODO: move this to a config file/use a config function
-  const webSocketUrl = "ws://localhost:8080/api";
+  const webSocketUrl = config("backendWebSocket");
 
   const initializeWebSocket = useCallback(() => {
     if (!webSocket) {

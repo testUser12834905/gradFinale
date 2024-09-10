@@ -87,6 +87,7 @@ export default function startServer() {
 
   openWebSocket(app, database);
   app.use("/api", apiRouter);
+
   const PORT = 8080;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
