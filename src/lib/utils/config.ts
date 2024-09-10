@@ -1,4 +1,4 @@
-import createConfig from "../../../shared/utils/config";
+import createConfig from "../../../shared/utils/create-config";
 import { viteEnv } from "../../config";
 
 const config = createConfig(viteEnv);

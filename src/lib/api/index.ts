@@ -7,11 +7,12 @@ import {
 
 const api = async <T extends TApiRoute>(
   apiRoute: T,
-  init?: RequestInit,
-  token?: string,
+  body?: object,
+  overwrite?: RequestInit,
 ): Promise<ApiResponseType<T>> => {
   const endpoint = config("backendEndPoint");
 
+  const token = 123;
   const apiEndpoint = apiEndpoints[apiRoute];
   const fetchUrl = `${endpoint}/${apiEndpoint.version}${apiEndpoint.route}`;
 
@@ -21,7 +22,8 @@ const api = async <T extends TApiRoute>(
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
-    ...init,
+    ...(body && { body: JSON.stringify(body) }),
+    ...overwrite,
   })
     .then(async (res) => {
       if (res.ok) {

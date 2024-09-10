@@ -1,5 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, message, type FormProps } from "antd";
+import api from "../../../lib/api";
+import { useAuthorizationStore } from "../../../lib/state/authorize";
 
 type LoginFormItems = {
   username: string;
@@ -10,10 +12,19 @@ const { useForm } = Form;
 
 const LoginForm = () => {
   const [form] = useForm<LoginFormItems>();
+  const setIsAuthorized = useAuthorizationStore(
+    (state) => state.setIsAuthorized,
+  );
 
-  const handleSuccess: FormProps<LoginFormItems>["onFinish"] = (values) => {
+  const handleSuccess: FormProps<LoginFormItems>["onFinish"] = async (
+    values,
+  ) => {
     console.log("Success:", values);
     message.success("Login successful!");
+    const v = await api("login", values);
+    console.log(v);
+    setIsAuthorized(true);
+    // store the tokens somehow
   };
 
   const handleFailed: FormProps<LoginFormItems>["onFinishFailed"] = (
