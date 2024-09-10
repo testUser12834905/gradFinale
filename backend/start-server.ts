@@ -18,7 +18,6 @@ export default function startServer() {
   // Global chat history
   const database = new Database();
 
-  // Create a router for our API
   const apiRouter = express.Router();
 
   apiRouter.post("/register", async (req, res) => {
@@ -86,7 +85,7 @@ export default function startServer() {
   });
 
   openWebSocket(app, database);
-  app.use("/api", apiRouter);
+  app.use("/api/v1", apiRouter);
 
   const PORT = 8080;
   app.listen(PORT, () => {
