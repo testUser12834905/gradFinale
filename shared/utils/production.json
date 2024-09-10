@@ -1,4 +1,4 @@
 {
-  "backendWebSocket": "ws://{some_url}/api",
-  "backendEndPoint": "http://{some_url}/api"
+  "backendWebSocket": "ws://209.38.186.231/api",
+  "backendEndPoint": "http://209.38.186.231/api"
 }
