@@ -13,6 +13,6 @@ const protectedRoutes: Route[] = [
 
 export const allRoutes: Route[] = [
   ...protectedRoutes,
-  { path: "/", element: <></> },
+  { path: "/", element: <>Test kube deployment</> },
   { path: "/login", element: <></> },
 ];
