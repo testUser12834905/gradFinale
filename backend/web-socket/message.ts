@@ -1,4 +1,4 @@
-import { openConections } from ".";
+import { openConections as openConnections } from ".";
 import type { WebSocketMessage } from "../../shared/types/ws-message";
 import type { Database } from "../database";
 
@@ -20,7 +20,10 @@ export const authenticateConnection = (
 ): boolean => {
   let isSucces = false;
 
-  const openConnection = openConections.get(connectionId);
+  console.log("connectionId", connectionId);
+  const openConnection = openConnections.get(connectionId);
+  // console.log(openConnections);
+  // console.log(openConnection);
 
   if (openConnection?.authorized) {
     isSucces = true;
@@ -29,6 +32,12 @@ export const authenticateConnection = (
 
   if (message.type === "authorize") {
     // authenticate the token
+
+    openConnections.set(connectionId, {
+      connection: openConnection!.connection,
+      authorized: true,
+    });
+
     console.log("auth token from client", message.bearerToken);
     clearTimeout(timeoutId);
 
@@ -37,7 +46,7 @@ export const authenticateConnection = (
   } else {
     openConnection?.connection.close();
     if (openConnection) {
-      openConections.delete(connectionId);
+      openConnections.delete(connectionId);
     }
     isSucces = false;
     return isSucces;

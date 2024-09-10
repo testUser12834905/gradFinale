@@ -39,6 +39,7 @@ export default function openWebSocket(
     connection.on("message", (msg: string) => {
       const message = JSON.parse(msg);
 
+      console.log(message);
       const authorized = authenticateConnection(
         message,
         connectionId,
