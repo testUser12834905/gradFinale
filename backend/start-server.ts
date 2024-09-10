@@ -18,7 +18,10 @@ export default function startServer() {
   // Global chat history
   const database = new Database();
 
-  app.post("/register", async (req, res) => {
+  // Create a router for our API
+  const apiRouter = express.Router();
+
+  apiRouter.post("/register", async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -42,15 +45,15 @@ export default function startServer() {
     res.status(201).json({ message: "User created successfully" });
   });
 
-  app.get("/", (req, res) => {
+  apiRouter.get("/", (req, res) => {
     res.json({ message: "Hello World" });
   });
 
-  app.get("/api/version", (req, res) => {
-    res.json({ message: "Hello World" });
+  apiRouter.get("/version", (req, res) => {
+    res.json({ node_env: process.env.NODE_ENV, timezone: process.env.TZ });
   });
 
-  app.post("/login", async (req, res) => {
+  apiRouter.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
 
@@ -62,7 +65,7 @@ export default function startServer() {
     res.json(tokens);
   });
 
-  app.post("/refresh-token", (req, res) => {
+  apiRouter.post("/refresh-token", (req, res) => {
     const { refreshToken } = req.body;
 
     if (!refreshToken) {
@@ -78,12 +81,12 @@ export default function startServer() {
     res.json({ accessToken });
   });
 
-  app.get("/protected", authenticateToken, (req, res) => {
+  apiRouter.get("/protected", authenticateToken, (req, res) => {
     res.json({ message: "This is a protected route", user: res.locals.user });
   });
 
   openWebSocket(app, database);
-
+  app.use("/api", apiRouter);
   const PORT = 8080;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -18,7 +18,7 @@ export default function openWebSocket(
   app: expressWs.Application,
   database: Database,
 ) {
-  app.ws("/", (connection, req) => {
+  app.ws("/api", (connection, req) => {
     const connectionItem = { connection, authorized: false };
     const connectionId = uuidv4();
 
