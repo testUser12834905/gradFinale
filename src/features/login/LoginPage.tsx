@@ -1,7 +1,11 @@
-type Props = {};
+import LoginForm from "./components/login-form";
 
 const LoginPage = () => {
-  return <div>LoginPage</div>;
+  return (
+    <div>
+      <LoginForm />
+    </div>
+  );
 };
 
 export default LoginPage;

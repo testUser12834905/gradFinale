@@ -14,7 +14,7 @@ const useMessageServer = (messageApi: MessageInstance) => {
   const closeWebSocket = useWebSocket((state) => state.closeWebSocket);
 
   // TODO: move this to a config file/use a config function
-  const webSocketUrl = "ws://localhost:8080";
+  const webSocketUrl = "ws://localhost:8080/api";
 
   const initializeWebSocket = useCallback(() => {
     if (!webSocket) {
