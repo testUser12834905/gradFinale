@@ -2,9 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: frontend-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx" # Or another ingress class supported by your cluster
 spec:
+  ingressClassName: nginx
   rules:
     - http:
         paths:
