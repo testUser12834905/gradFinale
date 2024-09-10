@@ -42,6 +42,10 @@ export default function startServer() {
     res.status(201).json({ message: "User created successfully" });
   });
 
+  app.get("/", (req, res) => {
+    res.json({ message: "Hello World" });
+  });
+
   app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
