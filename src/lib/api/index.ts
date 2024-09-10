@@ -6,14 +6,14 @@ import {
 } from "./constants";
 
 const api = async <T extends TApiRoute>(
-  apiRoute: T,
+  apiAction: T,
   body?: object,
   overwrite?: RequestInit,
 ): Promise<ApiResponseType<T>> => {
   const endpoint = config("backendEndPoint");
 
   const token = 123;
-  const apiEndpoint = apiEndpoints[apiRoute];
+  const apiEndpoint = apiEndpoints[apiAction];
   const fetchUrl = `${endpoint}/${apiEndpoint.version}${apiEndpoint.route}`;
 
   return fetch(fetchUrl, {

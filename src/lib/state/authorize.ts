@@ -2,13 +2,19 @@ import { create } from "zustand";
 
 type AuthState = {
   isAuthorized: boolean;
+  accessToken: string;
 };
 
 export type AuthAction = {
-  setIsAuthorized: (isAuthorized: AuthState["isAuthorized"]) => void;
+  setAuthorization: (
+    isAuthorized: AuthState["isAuthorized"],
+    accessToken: AuthState["accessToken"],
+  ) => void;
 };
 
 export const useAuthorizationStore = create<AuthState & AuthAction>((set) => ({
   isAuthorized: false,
-  setIsAuthorized: (isAuthorized) => set({ isAuthorized }),
+  accessToken: "",
+  setAuthorization: (isAuthorized: boolean, accessToken: string) =>
+    set({ isAuthorized, accessToken }),
 }));

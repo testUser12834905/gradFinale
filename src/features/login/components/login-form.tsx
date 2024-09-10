@@ -12,8 +12,8 @@ const { useForm } = Form;
 
 const LoginForm = () => {
   const [form] = useForm<LoginFormItems>();
-  const setIsAuthorized = useAuthorizationStore(
-    (state) => state.setIsAuthorized,
+  const setAuthorization = useAuthorizationStore(
+    (state) => state.setAuthorization,
   );
 
   const handleSuccess: FormProps<LoginFormItems>["onFinish"] = async (
@@ -23,15 +23,14 @@ const LoginForm = () => {
     message.success("Login successful!");
     const v = await api("login", values);
     console.log(v);
-    setIsAuthorized(true);
+    setAuthorization(true, v.accessToken || "");
     // store the tokens somehow
   };
 
   const handleFailed: FormProps<LoginFormItems>["onFinishFailed"] = (
     errorInfo,
   ) => {
-    console.log("Failed:", errorInfo);
-    message.error("Login failed. Please check your credentials.");
+    message.error(`Login failed. Please check your credentials. ${errorInfo}`);
   };
 
   return (
