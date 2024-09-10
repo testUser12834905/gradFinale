@@ -6,13 +6,21 @@ type Route = {
   element: ReactNode;
 };
 
-const protectedRoutes: Route[] = [
-  { path: "chat", element: pages.Chat },
+export const protectedRoutes: Route[] = [
+  { path: "/chat", element: pages.Chat },
   { path: "/logout", element: <></> },
+];
+
+export const signedOutUserRoutes: Route[] = [
+  { path: "/login", element: pages.Login },
+];
+
+export const publicRoutes: Route[] = [
+  { path: "/", element: <>Test kube deployment</> },
 ];
 
 export const allRoutes: Route[] = [
   ...protectedRoutes,
-  { path: "/", element: <>Test kube deployment</> },
-  { path: "/login", element: <></> },
+  ...publicRoutes,
+  ...signedOutUserRoutes,
 ];
