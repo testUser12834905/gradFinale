@@ -1,3 +1,4 @@
+import { useAuthorizationStore } from "../state/authorize";
 import config from "../utils/config";
 import {
   type ApiResponseType,
@@ -5,14 +6,19 @@ import {
   apiEndpoints,
 } from "./constants";
 
-const api = async <T extends TApiRoute>(
-  apiAction: T,
-  body?: object,
-  overwrite?: RequestInit,
-): Promise<ApiResponseType<T>> => {
+type Api<T> = {
+  apiAction: T;
+  body?: object;
+  overwrite?: RequestInit;
+};
+
+export const api = async <T extends TApiRoute>({
+  apiAction,
+  body,
+  overwrite,
+}: Api<T>): Promise<ApiResponseType<T>> => {
   const endpoint = config("backendEndPoint");
 
-  const token = 123;
   const apiEndpoint = apiEndpoints[apiAction];
   const fetchUrl = `${endpoint}/${apiEndpoint.version}${apiEndpoint.route}`;
 
@@ -20,7 +26,6 @@ const api = async <T extends TApiRoute>(
     method: apiEndpoint.method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
     },
     ...(body && { body: JSON.stringify(body) }),
     ...overwrite,
@@ -37,4 +42,20 @@ const api = async <T extends TApiRoute>(
     });
 };
 
-export default api;
+export const useApiWithAuth = (): typeof api => {
+  const accessToken = useAuthorizationStore((state) => state.accessToken);
+
+  const authenticatedApi: typeof api = (apiArgs) => {
+    return api({
+      overwrite: {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      },
+      ...apiArgs,
+    });
+  };
+
+  return authenticatedApi;
+};

@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, message, type FormProps } from "antd";
-import api from "../../../lib/api";
+import { api } from "../../../lib/api";
 import { useAuthorizationStore } from "../../../lib/state/authorize";
 
 type LoginFormItems = {
@@ -21,7 +21,7 @@ const LoginForm = () => {
   ) => {
     console.log("Success:", values);
     message.success("Login successful!");
-    const v = await api("login", values);
+    const v = await api({ apiAction: "login", body: values });
     console.log(v);
     setAuthorization(true, v.accessToken || "");
     // store the tokens somehow
