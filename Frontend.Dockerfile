@@ -11,6 +11,9 @@ COPY . .
 
 RUN npm run build
 
+ENV NODE_ENV=production
+ENV VITE_ENV=production
+
 EXPOSE 3000
 
 CMD [ "serve", "-s", "dist" ]
