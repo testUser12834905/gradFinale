@@ -46,6 +46,10 @@ export default function startServer() {
     res.json({ message: "Hello World" });
   });
 
+  app.get("/api/version", (req, res) => {
+    res.json({ message: "Hello World" });
+  });
+
   app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
