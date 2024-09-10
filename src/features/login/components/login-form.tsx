@@ -11,12 +11,12 @@ const { useForm } = Form;
 const LoginForm = () => {
   const [form] = useForm<LoginFormItems>();
 
-  const onFinish: FormProps<LoginFormItems>["onFinish"] = (values) => {
+  const handleSuccess: FormProps<LoginFormItems>["onFinish"] = (values) => {
     console.log("Success:", values);
     message.success("Login successful!");
   };
 
-  const onFinishFailed: FormProps<LoginFormItems>["onFinishFailed"] = (
+  const handleFailed: FormProps<LoginFormItems>["onFinishFailed"] = (
     errorInfo,
   ) => {
     console.log("Failed:", errorInfo);
@@ -28,8 +28,8 @@ const LoginForm = () => {
       <Form
         form={form}
         name="login"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinish={handleSuccess}
+        onFinishFailed={handleFailed}
         autoComplete="off"
       >
         <Form.Item
