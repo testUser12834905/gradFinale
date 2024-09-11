@@ -1,5 +1,5 @@
 import express from "express";
-import { ACCESS_TOKEN_SECRET } from "./constsnts";
+import { ACCESS_TOKEN_SECRET } from "./constants";
 import type { TokenPayload } from "./generate-tokens";
 import jwt from "jsonwebtoken";
 

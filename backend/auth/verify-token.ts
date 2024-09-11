@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "./constsnts";
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "./constants";
 import type { TokenPayload } from "./generate-tokens";
 
 export const verifyRefreshToken = (refreshToken: string): string | null => {
