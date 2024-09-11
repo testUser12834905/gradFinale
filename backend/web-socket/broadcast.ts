@@ -8,7 +8,20 @@ export default async function broadcastMessage(database: Database) {
     const socket = connection.connection;
 
     if (socket.readyState === socket.OPEN) {
-      socket.send(JSON.stringify(fullChatHistory));
+      socket.send(
+        JSON.stringify({ type: "chatHistory", data: fullChatHistory }),
+      );
     }
+  });
+}
+
+export function requestRevalidation() {
+  openConections.forEach((connection) => {
+    const socket = connection.connection;
+
+    if (socket.readyState === socket.OPEN) {
+      socket.send(JSON.stringify({ type: "revalidate" }));
+    }
+    connection.authorized = false;
   });
 }

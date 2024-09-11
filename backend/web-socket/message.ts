@@ -1,9 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
 import { openConections as openConnections } from ".";
-import type { ChatMessage } from "../../shared/types/chat-message";
 import type { WebSocketMessage } from "../../shared/types/ws-message";
-import type { Database } from "../database/models";
 import { verifyAccessToken } from "../auth/verify-token";
+import type { Database } from "../database/models";
 
 export const handleWebSocketMessage = async (
   message: WebSocketMessage,
@@ -28,9 +26,9 @@ export const authenticateConnection = (
   }
 
   if (message.type === "authorize") {
-    // authenticate the token
+    console.log("auth");
+
     const accessToken = message.bearerToken.split("Bearer ")[1];
-    console.log(accessToken);
     const isVerified = verifyAccessToken(accessToken);
 
     if (isVerified) {
@@ -38,16 +36,17 @@ export const authenticateConnection = (
         connection: openConnection!.connection,
         authorized: true,
       });
-
-      console.log("auth token from client", message.bearerToken);
       clearTimeout(timeoutId);
     }
+
     return isVerified;
   } else {
     openConnection?.connection.close();
+
     if (openConnection) {
       openConnections.delete(connectionId);
     }
+
     return false;
   }
 };

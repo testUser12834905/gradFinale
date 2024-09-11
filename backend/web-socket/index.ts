@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import type ws from "ws";
 import { SECOND } from "../../shared/consts/measurement";
 import type { Database } from "../database/models";
-import broadcastMessage from "./broadcast";
+import broadcastMessage, { requestRevalidation } from "./broadcast";
 import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
 
@@ -39,12 +39,12 @@ export default function openWebSocket(
     connection.on("message", async (msg: string) => {
       const message = JSON.parse(msg);
 
-      console.log("mess", message);
       const authorized = authenticateConnection(
         message,
         connectionId,
         timeoutId,
       );
+
       if (!authorized) {
         return;
       }
@@ -57,5 +57,12 @@ export default function openWebSocket(
     connection.on("close", () => {
       console.log("Client disconnected");
     });
+
+    setInterval(
+      () => {
+        requestRevalidation();
+      },
+      5 * 60 * SECOND,
+    );
   });
 }

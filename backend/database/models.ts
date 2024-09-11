@@ -54,7 +54,7 @@ UserModel.init(
 );
 
 // Define ChatMessage model
-class ChatMessageModel extends Model<ChatMessage> {}
+class ChatMessageModel extends Model<Omit<ChatMessage, "User">> {}
 
 ChatMessageModel.init(
   {
@@ -118,7 +118,9 @@ export class Database {
     return await UserModel.create(user);
   }
 
-  async addToChatHistory(chatMessage: ChatMessage): Promise<ChatMessageModel> {
+  async addToChatHistory(
+    chatMessage: Omit<ChatMessage, "User">,
+  ): Promise<ChatMessageModel> {
     return await ChatMessageModel.create(chatMessage);
   }
 

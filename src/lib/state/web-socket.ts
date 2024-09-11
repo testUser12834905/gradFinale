@@ -33,10 +33,21 @@ const createWebSocket = (
   };
 
   newSocket.onmessage = (event) => {
-    const chatHistory = JSON.parse(event.data);
-    console.log("ch", chatHistory);
-    chatHistoryActions.initialize(chatHistory);
-    console.log("Message from server:", event);
+    const message = JSON.parse(event.data);
+    console.log("ch", message);
+    switch (message.type) {
+      case "chatHistory":
+        chatHistoryActions.initialize(message.data);
+        break;
+      case "revalidate":
+        newSocket.send(
+          JSON.stringify({ type: "authorize", bearerToken: bearerToken }),
+        );
+        break;
+
+      default:
+        break;
+    }
   };
 
   // newSocket.onerror = () => {

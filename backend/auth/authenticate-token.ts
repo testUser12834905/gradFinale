@@ -1,7 +1,7 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET } from "./constants";
 import type { TokenPayload } from "./generate-tokens";
-import jwt from "jsonwebtoken";
 
 // TODO: probably should be moved into a middle ware folder
 export default function authenticateToken(

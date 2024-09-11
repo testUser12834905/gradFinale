@@ -1,5 +1,10 @@
 import jwt from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "./constants";
+import {
+  ACCESS_TOKEN_EXPIRES_IN,
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_EXPIRES_IN,
+  REFRESH_TOKEN_SECRET,
+} from "./constants";
 
 export type TokenPayload = {
   userID: string;
@@ -20,10 +25,10 @@ export default function generateTokens<T extends User>(
 } {
   const payload: TokenPayload = { userID: user.id, username: user.username };
   const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
-    expiresIn: "15m",
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
   });
   const refreshToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
   });
   return { accessToken, refreshToken };
 }

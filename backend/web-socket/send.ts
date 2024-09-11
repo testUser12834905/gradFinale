@@ -6,5 +6,7 @@ export const sendInitialState = async (
   database: Database,
 ) => {
   const fullChatHistory = await database.getFullChatHistory();
-  connection.send(JSON.stringify(fullChatHistory));
+  connection.send(
+    JSON.stringify({ type: "chatHistory", data: fullChatHistory }),
+  );
 };
