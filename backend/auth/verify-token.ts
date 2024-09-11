@@ -3,11 +3,11 @@ import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "./constants";
 import type { TokenPayload } from "./generate-tokens";
 
 export const verifyRefreshToken = (refreshToken: string): string | null => {
-  let refTok: string | null = null;
+  let newAccessToken: string | null = null;
 
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) {
-      refTok = null;
+      newAccessToken = null;
     }
 
     const userData = user as TokenPayload;
@@ -17,12 +17,21 @@ export const verifyRefreshToken = (refreshToken: string): string | null => {
       { expiresIn: "15m" },
     );
 
-    refTok = accessToken;
+    newAccessToken = accessToken;
   });
 
-  return refTok;
+  return newAccessToken;
 };
 
-export const verifyAccessToken = () => {
-  return;
+export const verifyAccessToken = (accessToken: string) => {
+  let verified: boolean = false;
+
+  jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      verified = false;
+    }
+    verified = true;
+  });
+
+  return verified;
 };

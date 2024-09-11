@@ -34,12 +34,12 @@ const useMessageServer = (messageApi: MessageInstance) => {
     return () => {
       closeWebSocket(messageApi);
     };
-  }, [webSocketUrl, isAuthorized]);
+  }, [webSocketUrl, isAuthorized, isAuthorized]);
 
   useEffect(() => {
     const cleanup = initializeWebSocket();
     return cleanup;
-  }, [initializeWebSocket]);
+  }, [initializeWebSocket, isAuthorized]);
 };
 
 export default useMessageServer;

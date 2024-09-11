@@ -27,7 +27,7 @@ const createWebSocket = (
 
   newSocket.onopen = () => {
     newSocket.send(
-      JSON.stringify({ type: "authorize", bearerToken: "Bear_token" }),
+      JSON.stringify({ type: "authorize", bearerToken: bearerToken }),
     );
     messageApi.success("WebSocket connected", 0.8);
   };

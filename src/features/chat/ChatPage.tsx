@@ -20,6 +20,7 @@ const Chat = () => {
             content={message.content}
             isCurrentUser={userID === message.userID}
             avatar={""}
+            username={message.User.username}
           />
         ))}
       </div>

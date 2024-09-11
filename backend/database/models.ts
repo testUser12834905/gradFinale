@@ -107,7 +107,7 @@ export class Database {
   }
 
   private async createTablesIfNotExist() {
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: false });
   }
 
   async findUser(username: string): Promise<UserModel | null> {

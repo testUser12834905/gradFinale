@@ -4,7 +4,7 @@ export type WebSocketMessage = SendChatMessage | AuthoriceConnection;
 
 type SendChatMessage = {
   type: "addChatMessage";
-  data: ChatMessage;
+  data: Omit<ChatMessage, "User">;
 };
 
 type AuthoriceConnection = {

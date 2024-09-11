@@ -8,11 +8,12 @@ type Props = {
   content: string;
   isCurrentUser: boolean;
   avatar: string;
+  username: string;
 };
 
 const { useToken } = theme;
 
-const ChatBubble = ({ content, isCurrentUser, avatar }: Props) => {
+const ChatBubble = ({ content, isCurrentUser, avatar, username }: Props) => {
   const { token } = useToken();
 
   const bubbleStyle: CSSProperties = {
@@ -42,7 +43,7 @@ const ChatBubble = ({ content, isCurrentUser, avatar }: Props) => {
       />
       <Flex align={isCurrentUser ? "end" : "start"} vertical>
         <Text strong style={{ marginLeft: 2, marginRight: 2 }}>
-          {isCurrentUser ? "You" : "Other"}
+          {isCurrentUser ? "You" : username}
         </Text>
         <div style={bubbleStyle}>
           <Text>{content}</Text>
