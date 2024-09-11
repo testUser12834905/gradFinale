@@ -5,10 +5,10 @@ import {
   getSignedOutUserRoutes,
   SignedOutUserRule,
 } from "./rules/signed-out-user";
-import { useAuthorizationStore } from "../state/authorize";
+import { useCurrentUserStore } from "../state/current-user";
 
 const Router = () => {
-  const isAuthorized = useAuthorizationStore((state) => state.isAuthorized);
+  const isAuthorized = useCurrentUserStore((state) => state.isAuthorized);
   return (
     <BrowserRouter>
       <Routes>

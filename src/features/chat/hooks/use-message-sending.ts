@@ -1,8 +1,10 @@
 import type { WebSocketMessage } from "../../../../shared/types/ws-message";
+import { useCurrentUserStore } from "../../../lib/state/current-user";
 import { useWebSocket } from "../../../lib/state/web-socket";
 
 const useMessageSending = () => {
   const webSocket = useWebSocket((state) => state.webSocket);
+  const userID = useCurrentUserStore((state) => state.userID);
 
   return (message: string): boolean => {
     if (!message) return false;
@@ -11,7 +13,7 @@ const useMessageSending = () => {
       type: "addChatMessage",
       data: {
         id: undefined,
-        userID: "29eb8c2a-8d16-4f9f-820f-70f9ace8a18f",
+        userID: userID,
         content: message,
         timestamp: new Date().getTime(),
       },

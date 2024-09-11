@@ -1,7 +1,8 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, message, type FormProps } from "antd";
 import { api } from "../../../lib/api";
-import { useAuthorizationStore } from "../../../lib/state/authorize";
+import { useCurrentUserStore } from "../../../lib/state/current-user";
+import { jwtDecode } from "jwt-decode";
 
 type LoginFormItems = {
   username: string;
@@ -12,18 +13,30 @@ const { useForm } = Form;
 
 const LoginForm = () => {
   const [form] = useForm<LoginFormItems>();
-  const setAuthorization = useAuthorizationStore(
-    (state) => state.setAuthorization,
-  );
+  const [setAuthorization, setUserInfo] = useCurrentUserStore((state) => [
+    state.setAuthorization,
+    state.setUserInfo,
+  ]);
 
   const handleSuccess: FormProps<LoginFormItems>["onFinish"] = async (
     values,
   ) => {
-    console.log("Success:", values);
-    message.success("Login successful!");
     const v = await api({ apiAction: "login", body: values });
-    console.log(v);
-    setAuthorization(true, v.accessToken || "");
+
+    setAuthorization({
+      isAuthorized: true,
+      accessToken: v.accessToken || "",
+    });
+
+    const decoded: Partial<{ userID: string; username: string }> = jwtDecode(
+      v.accessToken || "",
+    );
+
+    setUserInfo({
+      userID: decoded.userID || "",
+      username: decoded.username || "",
+    });
+
     // store the tokens somehow
   };
 

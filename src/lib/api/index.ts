@@ -1,4 +1,4 @@
-import { useAuthorizationStore } from "../state/authorize";
+import { useCurrentUserStore } from "../state/current-user";
 import config from "../utils/config";
 import {
   type ApiResponseType,
@@ -43,7 +43,7 @@ export const api = async <T extends TApiRoute>({
 };
 
 export const useApiWithAuth = (): typeof api => {
-  const accessToken = useAuthorizationStore((state) => state.accessToken);
+  const accessToken = useCurrentUserStore((state) => state.accessToken);
 
   const authenticatedApi: typeof api = (apiArgs) => {
     return api({

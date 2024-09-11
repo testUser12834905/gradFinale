@@ -31,7 +31,7 @@ export const ProtectedRule = ({
           />
         </FloatButton.Group>
       )}
-      <Outlet />;
+      <Outlet />
     </>
   );
 };
