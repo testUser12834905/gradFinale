@@ -9,7 +9,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       {contextHolder}
-      <div style={{ minHeight: "95vh" }}>{children}</div>
+      <main>{children}</main>
     </>
   );
 };

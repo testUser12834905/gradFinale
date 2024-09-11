@@ -1,24 +1,23 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthorizedLayout } from "../../components/templates/authorized-layout";
 import { getProtectedRoutes, ProtectedRule } from "./rules/protected";
 import { getPublicRoutes } from "./rules/public";
 import {
   getSignedOutUserRoutes,
   SignedOutUserRule,
 } from "./rules/signed-out-user";
-import { useCurrentUserStore } from "../state/current-user";
 
 const Router = () => {
-  const isAuthorized = useCurrentUserStore((state) => state.isAuthorized);
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRule isAuthenticated={isAuthorized} />}>
-          {getProtectedRoutes()}
+        <Route element={<AuthorizedLayout />}>
+          <Route element={<ProtectedRule />}>{getProtectedRoutes()}</Route>
+          <Route element={<SignedOutUserRule />}>
+            {getSignedOutUserRoutes()}
+          </Route>
+          {getPublicRoutes()}
         </Route>
-        <Route element={<SignedOutUserRule isAuthenticated={isAuthorized} />}>
-          {getSignedOutUserRoutes()}
-        </Route>
-        {getPublicRoutes()}
       </Routes>
     </BrowserRouter>
   );

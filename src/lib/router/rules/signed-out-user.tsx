@@ -1,16 +1,17 @@
 import { Navigate, Outlet, Route } from "react-router-dom";
-import { signedOutUserRoutes } from "../../constants/routes";
 import { SIGNED_IN_REDIRECT } from "../../constants/redirect";
+import { signedOutUserRoutes } from "../../constants/routes";
+import { useCurrentUserStore } from "../../state/current-user";
 
 type Props = {
-  isAuthenticated: boolean;
   redirectPath?: string;
 };
+
 export const SignedOutUserRule = ({
-  isAuthenticated,
   redirectPath = SIGNED_IN_REDIRECT,
 }: Props) => {
-  if (isAuthenticated) {
+  const isAuthorized = useCurrentUserStore((state) => state.isAuthorized);
+  if (isAuthorized) {
     return <Navigate to={redirectPath} replace />;
   }
 
