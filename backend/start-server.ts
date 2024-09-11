@@ -6,7 +6,7 @@ import authenticateToken from "./auth/authenticate-token";
 import type { User } from "./auth/generate-tokens";
 import generateTokens from "./auth/generate-tokens";
 import { verifyRefreshToken } from "./auth/verify-token";
-import { Database } from "./database/models";
+import { Database } from "./database";
 import openWebSocket from "./web-socket";
 
 export default function startServer() {

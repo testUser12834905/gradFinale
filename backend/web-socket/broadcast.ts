@@ -1,5 +1,5 @@
 import { openConections } from ".";
-import type { Database } from "../database/models";
+import type { Database } from "../database";
 
 export default async function broadcastMessage(database: Database) {
   openConections.forEach(async (connection) => {

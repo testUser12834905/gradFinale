@@ -1,7 +1,7 @@
 import { openConections as openConnections } from ".";
 import type { WebSocketMessage } from "../../shared/types/ws-message";
 import { verifyAccessToken } from "../auth/verify-token";
-import type { Database } from "../database/models";
+import type { Database } from "../database";
 
 export const handleWebSocketMessage = async (
   message: WebSocketMessage,

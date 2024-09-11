@@ -1,5 +1,5 @@
 import type ws from "ws";
-import type { Database } from "../database/models";
+import type { Database } from "../database";
 
 export const sendInitialState = async (
   connection: ws.WebSocket,
