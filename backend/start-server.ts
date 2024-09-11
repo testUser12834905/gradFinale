@@ -13,8 +13,6 @@ export default function startServer() {
   const { app } = expressWs(express());
   app.use(express.json());
 
-  const users: User[] = [];
-
   // Global chat history
   const database = new Database();
 
@@ -29,7 +27,7 @@ export default function startServer() {
         .json({ message: "Username and password are required" });
     }
 
-    if (users.find((user) => user.username === username)) {
+    if (database.findUser(username)) {
       return res.status(400).json({ message: "Username already exists" });
     }
 
@@ -40,7 +38,7 @@ export default function startServer() {
       password: hashedPassword,
     };
 
-    users.push(newUser);
+    database.createUser(newUser);
     res.status(201).json({ message: "User created successfully" });
   });
 
@@ -54,7 +52,7 @@ export default function startServer() {
 
   apiRouter.post("/login", async (req, res) => {
     const { username, password } = req.body;
-    const user = users.find((u) => u.username === username);
+    const user = database.findUser(username);
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid username or password" });
