@@ -1,8 +1,8 @@
-import { openConections } from ".";
+import { openConnections } from ".";
 import type { Database } from "../database";
 
 export default async function broadcastMessage(database: Database) {
-  openConections.forEach(async (openConnection) => {
+  openConnections.forEach(async (openConnection) => {
     const fullChatHistory = await database.getFullChatHistory();
 
     const connection = openConnection.connection;
@@ -16,7 +16,7 @@ export default async function broadcastMessage(database: Database) {
 }
 
 export function requestRevalidation() {
-  openConections.forEach((openConnection) => {
+  openConnections.forEach((openConnection) => {
     const connection = openConnection.connection;
 
     if (connection.readyState === connection.OPEN) {

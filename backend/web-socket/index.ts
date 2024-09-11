@@ -1,19 +1,22 @@
 import type expressWs from "express-ws";
 import { v4 as uuidv4 } from "uuid";
 import type ws from "ws";
-import { SECOND } from "../../shared/consts/measurement";
 import type { Database } from "../database";
-import broadcastDBState, { requestRevalidation } from "./broadcast";
-import { authenticateConnection, handleWebSocketMessage } from "./message";
+import {
+  authenticateConnection,
+  disconnetTimeout,
+  setRevalidateInterval,
+} from "./auth";
+import broadcastDBState from "./broadcast";
+import { handleWebSocketMessage } from "./handle-message";
 import { sendInitialState } from "./send";
-import { disconnetTimeout, setRevalidateInterval } from "./auth";
 
 type ConnectionItem = {
   connection: ws.WebSocket;
   authorized: boolean;
 };
 
-export const openConections: Map<string, ConnectionItem> = new Map();
+export const openConnections: Map<string, ConnectionItem> = new Map();
 
 export default function openWebSocket(
   app: expressWs.Application,
@@ -24,7 +27,7 @@ export default function openWebSocket(
     const connectionId = uuidv4();
 
     const timeoutId = disconnetTimeout(connectionId);
-    openConections.set(connectionId, connectionItem);
+    openConnections.set(connectionId, connectionItem);
     sendInitialState(connection, database);
 
     connection.on("message", async (msg: string) => {
