@@ -7,6 +7,8 @@ import { useAuthorizationStore } from "../lib/state/authorize";
 
 // TODO: rename this to something more clear
 const useMessageServer = (messageApi: MessageInstance) => {
+  const isAuthorized = useAuthorizationStore((state) => state.isAuthorized);
+
   const chatHistoryActions = useChatHistory(
     (state) => state.chatHistoryActions,
   );
@@ -20,7 +22,7 @@ const useMessageServer = (messageApi: MessageInstance) => {
   const webSocketUrl = config("backendWebSocket");
 
   const initializeWebSocket = useCallback(() => {
-    if (!webSocket) {
+    if (!webSocket && isAuthorized) {
       createWebSocket(
         messageApi,
         webSocketUrl,
@@ -32,7 +34,7 @@ const useMessageServer = (messageApi: MessageInstance) => {
     return () => {
       closeWebSocket(messageApi);
     };
-  }, [webSocketUrl]);
+  }, [webSocketUrl, isAuthorized]);
 
   useEffect(() => {
     const cleanup = initializeWebSocket();
