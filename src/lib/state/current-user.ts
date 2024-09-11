@@ -1,15 +1,19 @@
 import { create } from "zustand";
+import { purgeUserSession, retrieveUserSession } from "../local-storage/user";
 
-type CurrentUserState = {
+export type CurrentUserState = {
   isAuthorized: boolean;
   accessToken: string;
+  refreshToken: string;
   username: string;
   userID: string;
+  isLoading: boolean;
 };
 
 type SetAuthorization = {
   isAuthorized: boolean;
   accessToken: string;
+  refreshToken: string;
 };
 
 type SetUserInfo = {
@@ -18,8 +22,14 @@ type SetUserInfo = {
 };
 
 export type CurrentUserActions = {
-  setAuthorization: ({ isAuthorized, accessToken }: SetAuthorization) => void;
+  setAuthorization: ({
+    isAuthorized,
+    accessToken,
+    refreshToken,
+  }: SetAuthorization) => void;
   setUserInfo: ({ username, userID }: SetUserInfo) => void;
+  initializeStore: () => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 export const useCurrentUserStore = create<
@@ -27,9 +37,40 @@ export const useCurrentUserStore = create<
 >((set) => ({
   isAuthorized: false,
   accessToken: "",
+  refreshToken: "",
   username: "",
   userID: "",
-  setAuthorization: ({ isAuthorized, accessToken }: SetAuthorization) =>
-    set({ isAuthorized, accessToken }),
+  isLoading: true,
+  setAuthorization: ({
+    isAuthorized,
+    accessToken,
+    refreshToken,
+  }: SetAuthorization) => set({ isAuthorized, accessToken, refreshToken }),
   setUserInfo: ({ username, userID }: SetUserInfo) => set({ username, userID }),
+  initializeStore: async () => {
+    try {
+      const session = await retrieveUserSession();
+      set({
+        isAuthorized: session.isAuthorized,
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
+        username: session.username,
+        userID: session.userID,
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error("Failed to initialize user session:", error);
+      set({ isAuthorized: false, isLoading: false });
+    }
+  },
+  logout: async () => {
+    await purgeUserSession();
+    set({
+      username: "",
+      userID: "",
+      isAuthorized: false,
+      accessToken: "",
+      refreshToken: "",
+    });
+  },
 }));

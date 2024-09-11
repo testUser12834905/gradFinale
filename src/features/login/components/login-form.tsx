@@ -3,6 +3,7 @@ import { Button, Card, Form, Input, message, type FormProps } from "antd";
 import { api } from "../../../lib/api";
 import { useCurrentUserStore } from "../../../lib/state/current-user";
 import { jwtDecode } from "jwt-decode";
+import { persistUserSession } from "../../../lib/local-storage/user";
 
 type LoginFormItems = {
   username: string;
@@ -26,6 +27,7 @@ const LoginForm = () => {
     setAuthorization({
       isAuthorized: true,
       accessToken: v.accessToken || "",
+      refreshToken: v.refreshToken || "",
     });
 
     const decoded: Partial<{ userID: string; username: string }> = jwtDecode(
@@ -35,6 +37,11 @@ const LoginForm = () => {
     setUserInfo({
       userID: decoded.userID || "",
       username: decoded.username || "",
+    });
+
+    persistUserSession({
+      accessToken: v.accessToken || "",
+      refreshToken: v.refreshToken || "",
     });
 
     // store the tokens somehow

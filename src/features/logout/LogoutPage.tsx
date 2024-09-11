@@ -3,12 +3,12 @@ import { Navigate } from "react-router-dom";
 import { useCurrentUserStore } from "../../lib/state/current-user";
 
 const LogoutPage = () => {
-  const setAuthorization = useCurrentUserStore(
-    (state) => state.setAuthorization,
-  );
+  const logout = useCurrentUserStore((state) => state.logout);
 
   useEffect(() => {
-    return setAuthorization({ isAuthorized: false, accessToken: "" });
+    return () => {
+      logout();
+    };
   }, []);
 
   return <Navigate to="/login" replace />;
