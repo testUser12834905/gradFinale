@@ -1,7 +1,7 @@
-import { useChatHistory } from "../../../lib/state/chat-history";
+import { useChatHistoryStore } from "../../../lib/state/chat-history";
 
 const useChat = () => {
-  const chatHistory = useChatHistory((state) => state.chatHistory);
+  const chatHistory = useChatHistoryStore((state) => state.chatHistory);
 
   return { chatHistory };
 };

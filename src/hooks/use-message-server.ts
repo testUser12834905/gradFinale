@@ -1,6 +1,6 @@
 import type { MessageInstance } from "antd/es/message/interface";
 import { useCallback, useEffect } from "react";
-import { useChatHistory } from "../lib/state/chat-history";
+import { useChatHistoryStore } from "../lib/state/chat-history";
 import { useWebSocketStore } from "../lib/state/web-socket";
 import config from "../lib/utils/config";
 import { useCurrentUserStore } from "../lib/state/current-user";
@@ -9,7 +9,7 @@ import { useCurrentUserStore } from "../lib/state/current-user";
 const useMessageServer = (messageApi: MessageInstance) => {
   const isAuthorized = useCurrentUserStore((state) => state.isAuthorized);
 
-  const chatHistoryActions = useChatHistory(
+  const chatHistoryActions = useChatHistoryStore(
     (state) => state.chatHistoryActions,
   );
 

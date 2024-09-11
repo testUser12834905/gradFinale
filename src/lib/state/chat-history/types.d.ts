@@ -1,24 +1,13 @@
-import { create } from "zustand";
-import type { ChatMessage } from "../../../shared/types/chat-message";
-
-type ChatHistoryState = {
+export type ChatHistoryState = {
   chatHistory: ChatMessage[];
 };
 
 export type ChatHistoryAction = {
   chatHistoryActions: {
     initialize: (data: ChatHistoryState["chatHistory"]) => void;
+    // TODO: progressive update of the state instead of replacing the whole state
     // add: (data: ChatHistoryState["chatHistory"]) => void;
     // update: (data: ChatHistoryState["chatHistory"]) => void;
     // remove: (data: ChatHistoryState["chatHistory"]) => void;
   };
 };
-
-export const useChatHistory = create<ChatHistoryState & ChatHistoryAction>(
-  (set) => ({
-    chatHistory: [],
-    chatHistoryActions: {
-      initialize: (chatHistory) => set({ chatHistory }),
-    },
-  }),
-);
