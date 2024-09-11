@@ -36,7 +36,7 @@ export default function openWebSocket(
     openConections.set(connectionId, connectionItem);
     sendInitialState(connection, database);
 
-    connection.on("message", (msg: string) => {
+    connection.on("message", async (msg: string) => {
       const message = JSON.parse(msg);
 
       console.log("mess", message);
@@ -49,7 +49,7 @@ export default function openWebSocket(
         return;
       }
 
-      handleWebSocketMessage(message, database);
+      await handleWebSocketMessage(message, database);
 
       broadcastMessage(database);
     });
