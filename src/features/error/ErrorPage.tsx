@@ -1,5 +1,6 @@
 import { Result, Button } from "antd";
 import type { ResultStatusType } from "antd/es/result";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   status: ResultStatusType;
@@ -8,12 +9,17 @@ type Props = {
 };
 
 const ErrorPage = ({ status, title, subTitle }: Props) => {
+  const navigate = useNavigate();
   return (
     <Result
       status={status}
       title={title}
       subTitle={subTitle}
-      extra={<Button type="primary">Back Home</Button>}
+      extra={
+        <Button type="primary" onClick={() => navigate("/")}>
+          Back Home
+        </Button>
+      }
     />
   );
 };
