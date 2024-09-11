@@ -2,13 +2,13 @@ import { openConections } from ".";
 import type { Database } from "../database";
 
 export default async function broadcastMessage(database: Database) {
-  openConections.forEach(async (connection) => {
+  openConections.forEach(async (openConnection) => {
     const fullChatHistory = await database.getFullChatHistory();
 
-    const socket = connection.connection;
+    const connection = openConnection.connection;
 
-    if (socket.readyState === socket.OPEN) {
-      socket.send(
+    if (connection.readyState === connection.OPEN) {
+      connection.send(
         JSON.stringify({ type: "chatHistory", data: fullChatHistory }),
       );
     }
@@ -16,12 +16,12 @@ export default async function broadcastMessage(database: Database) {
 }
 
 export function requestRevalidation() {
-  openConections.forEach((connection) => {
-    const socket = connection.connection;
+  openConections.forEach((openConnection) => {
+    const connection = openConnection.connection;
 
-    if (socket.readyState === socket.OPEN) {
-      socket.send(JSON.stringify({ type: "revalidate" }));
+    if (connection.readyState === connection.OPEN) {
+      connection.send(JSON.stringify({ type: "revalidate" }));
     }
-    connection.authorized = false;
+    openConnection.authorized = false;
   });
 }
