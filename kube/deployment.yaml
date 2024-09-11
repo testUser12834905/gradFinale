@@ -56,3 +56,5 @@ spec:
                   key: postgres-password
             - name: NODE_ENV
               value: production
+            - name: DB_USE_SSL
+              value: "false"
