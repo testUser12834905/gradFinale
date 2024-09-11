@@ -6,7 +6,7 @@ import type { Database } from "../database";
 import broadcastMessage, { requestRevalidation } from "./broadcast";
 import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
-import { disconnetTimeout } from "./auth";
+import { disconnetTimeout, setRevalidateInterval } from "./auth";
 
 type ConnectionItem = {
   connection: ws.WebSocket;
@@ -24,7 +24,6 @@ export default function openWebSocket(
     const connectionId = uuidv4();
 
     const timeoutId = disconnetTimeout(connectionId);
-
     openConections.set(connectionId, connectionItem);
     sendInitialState(connection, database);
 
@@ -36,13 +35,11 @@ export default function openWebSocket(
         connectionId,
         timeoutId,
       );
-
       if (!authorized) {
         return;
       }
 
       await handleWebSocketMessage(message, database);
-
       broadcastMessage(database);
     });
 
@@ -50,11 +47,6 @@ export default function openWebSocket(
       console.log("Client disconnected");
     });
 
-    setInterval(
-      () => {
-        requestRevalidation();
-      },
-      5 * 60 * SECOND,
-    );
+    setRevalidateInterval();
   });
 }
