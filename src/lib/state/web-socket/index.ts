@@ -1,8 +1,8 @@
 import type { MessageInstance } from "antd/es/message/interface";
 import { create } from "zustand";
-import type { ChatHistoryAction } from "../chat-history";
-import { createWebSocket } from "./handlers";
+import { createWebSocket } from "./utils";
 import type { WebSocketActions, WebSocketState } from "./types";
+import type { ChatHistoryAction } from "../chat-history/types";
 
 export const useWebSocketStore = create<WebSocketState & WebSocketActions>(
   (set) => ({

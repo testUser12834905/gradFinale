@@ -1,7 +1,5 @@
 import type { MessageInstance } from "antd/es/message/interface";
-import type { ChatHistoryAction } from "../chat-history";
-import { set } from "idb-keyval";
-import type { WebSocketActions } from "./types";
+import type { ChatHistoryAction } from "../chat-history/types";
 
 export const createWebSocket = (
   url: string,

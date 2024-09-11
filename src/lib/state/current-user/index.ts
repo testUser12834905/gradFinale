@@ -1,36 +1,14 @@
 import { create } from "zustand";
-import { purgeUserSession, retrieveUserSession } from "../local-storage/user";
-
-export type CurrentUserState = {
-  isAuthorized: boolean;
-  accessToken: string;
-  refreshToken: string;
-  username: string;
-  userID: string;
-  isLoading: boolean;
-};
-
-type SetAuthorization = {
-  isAuthorized: boolean;
-  accessToken: string;
-  refreshToken: string;
-};
-
-type SetUserInfo = {
-  username: string;
-  userID: string;
-};
-
-export type CurrentUserActions = {
-  setAuthorization: ({
-    isAuthorized,
-    accessToken,
-    refreshToken,
-  }: SetAuthorization) => void;
-  setUserInfo: ({ username, userID }: SetUserInfo) => void;
-  initializeStore: () => Promise<void>;
-  logout: () => Promise<void>;
-};
+import {
+  purgeUserSession,
+  retrieveUserSession,
+} from "../../local-storage/user";
+import type {
+  CurrentUserActions,
+  CurrentUserState,
+  SetAuthorization,
+  SetUserInfo,
+} from "./types";
 
 export const useCurrentUserStore = create<
   CurrentUserState & CurrentUserActions
@@ -59,7 +37,6 @@ export const useCurrentUserStore = create<
         isLoading: false,
       });
     } catch (error) {
-      console.error("Failed to initialize user session:", error);
       set({ isAuthorized: false, isLoading: false });
     }
   },
