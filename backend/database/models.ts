@@ -68,7 +68,7 @@ ChatMessageModel.init(
       allowNull: false,
     },
     timestamp: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: () => Math.floor(Date.now() / 1000),
     },
