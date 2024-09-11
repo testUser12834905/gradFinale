@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "./constsnts";
 
 export type TokenPayload = {
-  userId: string;
+  userID: string;
   username: string;
 };
 
@@ -12,11 +12,13 @@ export type User = {
   password: string;
 };
 
-export default function generateTokens(user: User): {
+export default function generateTokens<T extends User>(
+  user: T,
+): {
   accessToken: string;
   refreshToken: string;
 } {
-  const payload: TokenPayload = { userId: user.id, username: user.username };
+  const payload: TokenPayload = { userID: user.id, username: user.username };
   const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
     expiresIn: "15m",
   });

@@ -10,8 +10,8 @@ const useMessageSending = () => {
     const chatRecord: WebSocketMessage = {
       type: "addChatMessage",
       data: {
-        id: 1,
-        userID: Math.round(Math.random()),
+        id: undefined,
+        userID: "29eb8c2a-8d16-4f9f-820f-70f9ace8a18f",
         content: message,
         timestamp: new Date().getTime(),
       },

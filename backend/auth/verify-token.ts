@@ -12,7 +12,7 @@ export const verifyRefreshToken = (refreshToken: string): string | null => {
 
     const userData = user as TokenPayload;
     const accessToken = jwt.sign(
-      { userId: userData.userId, username: userData.username },
+      { userID: userData.userID, username: userData.username },
       ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" },
     );

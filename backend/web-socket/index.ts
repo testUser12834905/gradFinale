@@ -2,7 +2,7 @@ import type expressWs from "express-ws";
 import { v4 as uuidv4 } from "uuid";
 import type ws from "ws";
 import { SECOND } from "../../shared/consts/measurement";
-import type { Database } from "../database";
+import type { Database } from "../database/models";
 import broadcastMessage from "./broadcast";
 import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
@@ -39,7 +39,7 @@ export default function openWebSocket(
     connection.on("message", (msg: string) => {
       const message = JSON.parse(msg);
 
-      console.log(message);
+      console.log("mess", message);
       const authorized = authenticateConnection(
         message,
         connectionId,

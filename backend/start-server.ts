@@ -6,7 +6,7 @@ import authenticateToken from "./auth/authenticate-token";
 import type { User } from "./auth/generate-tokens";
 import generateTokens from "./auth/generate-tokens";
 import { verifyRefreshToken } from "./auth/verify-token";
-import { Database } from "./database";
+import { Database } from "./database/models";
 import openWebSocket from "./web-socket";
 
 export default function startServer() {
@@ -27,7 +27,7 @@ export default function startServer() {
         .json({ message: "Username and password are required" });
     }
 
-    if (database.findUser(username)) {
+    if (await database.findUser(username)) {
       return res.status(400).json({ message: "Username already exists" });
     }
 
@@ -52,13 +52,13 @@ export default function startServer() {
 
   apiRouter.post("/login", async (req, res) => {
     const { username, password } = req.body;
-    const user = database.findUser(username);
+    const user = await database.findUser(username);
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await bcrypt.compare(password, user.dataValues.password))) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
 
-    const tokens = generateTokens(user);
+    const tokens = generateTokens(user.dataValues);
     res.json(tokens);
   });
 
@@ -86,7 +86,11 @@ export default function startServer() {
   app.use("/api/v1", apiRouter);
 
   const PORT = 8080;
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+
+  (async () => {
+    await database.initialize();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })();
 }

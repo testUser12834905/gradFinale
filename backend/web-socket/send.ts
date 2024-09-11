@@ -1,9 +1,10 @@
 import type ws from "ws";
-import type { Database } from "../database";
+import type { Database } from "../database/models";
 
-export const sendInitialState = (
+export const sendInitialState = async (
   connection: ws.WebSocket,
   database: Database,
 ) => {
-  connection.send(JSON.stringify(database.getFullChatHistory()));
+  const fullChatHistory = await database.getFullChatHistory();
+  connection.send(JSON.stringify(fullChatHistory));
 };

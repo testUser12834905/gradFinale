@@ -1,14 +1,21 @@
+import { v4 as uuidv4 } from "uuid";
 import { openConections as openConnections } from ".";
+import type { ChatMessage } from "../../shared/types/chat-message";
 import type { WebSocketMessage } from "../../shared/types/ws-message";
-import type { Database } from "../database";
+import type { Database } from "../database/models";
 
-export const handleWebSocketMessage = (
+export const handleWebSocketMessage = async (
   message: WebSocketMessage,
   database: Database,
-): void => {
+): Promise<void> => {
   switch (message.type) {
     case "addChatMessage":
-      database.addToChatHistory(message.data);
+      console.log("md", message.data);
+      const chatMessage: ChatMessage = {
+        ...message.data,
+        id: message.data.id || uuidv4(),
+      };
+      await database.addToChatHistory(message.data);
       return;
   }
 };
