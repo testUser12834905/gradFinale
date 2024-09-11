@@ -38,13 +38,6 @@ const LoginForm = () => {
       userID: decoded.userID || "",
       username: decoded.username || "",
     });
-
-    persistUserSession({
-      accessToken: v.accessToken || "",
-      refreshToken: v.refreshToken || "",
-    });
-
-    // store the tokens somehow
   };
 
   const handleFailed: FormProps<LoginFormItems>["onFinishFailed"] = (

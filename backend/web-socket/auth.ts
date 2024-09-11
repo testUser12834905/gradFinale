@@ -39,8 +39,6 @@ export const authenticateConnection = (
   }
 
   if (message.type === "authorize") {
-    console.log("auth");
-
     const accessToken = message.bearerToken.split("Bearer ")[1];
     const isVerified = verifyAccessToken(accessToken);
 

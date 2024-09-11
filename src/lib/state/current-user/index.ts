@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import {
+  persistUserSession,
   purgeUserSession,
   retrieveUserSession,
 } from "../../local-storage/user";
@@ -23,7 +24,14 @@ export const useCurrentUserStore = create<
     isAuthorized,
     accessToken,
     refreshToken,
-  }: SetAuthorization) => set({ isAuthorized, accessToken, refreshToken }),
+  }: SetAuthorization) => {
+    persistUserSession({
+      accessToken,
+      refreshToken,
+    });
+
+    set({ isAuthorized, accessToken, refreshToken });
+  },
   setUserInfo: ({ username, userID }: SetUserInfo) => set({ username, userID }),
   initializeStore: async () => {
     try {
