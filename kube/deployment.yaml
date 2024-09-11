@@ -37,3 +37,22 @@ spec:
           image: testuser12348209/kube-finale-backend:${BUDDY_EXECUTION_REVISION_SHORT}
           ports:
             - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: postgres-service
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: yourdbname
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-password
+            - name: NODE_ENV
+              value: production

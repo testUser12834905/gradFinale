@@ -1,9 +1,8 @@
-import { Sequelize, DataTypes, Model, QueryTypes } from "sequelize";
 import path from "path";
+import { DataTypes, Model, QueryTypes, Sequelize } from "sequelize";
 import type { ChatMessage } from "../../shared/types/chat-message";
 import type { User } from "../auth/generate-tokens";
 
-// Initialize Sequelize
 const sequelize = new Sequelize({
   dialect: process.env.NODE_ENV === "production" ? "postgres" : "sqlite",
   storage:
@@ -11,6 +10,11 @@ const sequelize = new Sequelize({
       ? undefined
       : path.join(__dirname, "../..", "mydb.sqlite"),
   logging: false,
+  host: process.env.DB_HOST || "localhost",
+  port: parseInt(process.env.DB_PORT || "5432"),
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   ...(process.env.NODE_ENV === "production"
     ? {
         dialectOptions: {
