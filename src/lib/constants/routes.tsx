@@ -8,7 +8,7 @@ type Route = {
 
 export const protectedRoutes: Route[] = [
   { path: "/chat", element: pages.Chat },
-  { path: "/logout", element: <></> },
+  { path: "/logout", element: pages.Logout },
 ];
 
 export const signedOutUserRoutes: Route[] = [

@@ -1,6 +1,8 @@
-import { Navigate, Outlet, Route } from "react-router-dom";
+import { Navigate, Outlet, Route, useNavigate } from "react-router-dom";
 import { protectedRoutes } from "../../constants/routes";
 import { GENERIC_REDIRECT } from "../../constants/redirect";
+import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { FloatButton } from "antd";
 
 type Props = {
   isAuthenticated: boolean;
@@ -10,11 +12,24 @@ export const ProtectedRule = ({
   isAuthenticated,
   redirectPath = GENERIC_REDIRECT,
 }: Props) => {
+  const navigate = useNavigate();
   if (!isAuthenticated) {
     return <Navigate to={redirectPath} replace />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      {isAuthenticated && (
+        <FloatButton.Group trigger="click" icon={<UserOutlined />}>
+          <FloatButton
+            onClick={() => navigate("/logout", { replace: true })}
+            icon={<LogoutOutlined />}
+          />
+        </FloatButton.Group>
+      )}
+      <Outlet />;
+    </>
+  );
 };
 
 export const getProtectedRoutes = () => {
