@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import express from "express";
 import expressWs from "express-ws";
 import { v4 as uuidv4 } from "uuid";
-import authenticateToken from "./auth/authenticate-token";
 import type { User } from "./auth/generate-tokens";
 import generateTokens from "./auth/generate-tokens";
 import { issueNewAccessToken } from "./auth/verify-token";
@@ -13,7 +12,6 @@ export default function startServer() {
   const { app } = expressWs(express());
   app.use(express.json());
 
-  // Global chat history
   const database = new Database();
 
   const apiRouter = express.Router();
@@ -42,12 +40,8 @@ export default function startServer() {
     res.status(201).json({ message: "User created successfully" });
   });
 
-  apiRouter.get("/", (req, res) => {
-    res.json({ message: "Hello World" });
-  });
-
-  apiRouter.get("/version", (req, res) => {
-    res.json({ node_env: process.env.NODE_ENV, timezone: process.env.TZ });
+  apiRouter.get("/health", (req, res) => {
+    res.json({ message: "I'm alive" });
   });
 
   apiRouter.post("/login", async (req, res) => {
@@ -76,10 +70,6 @@ export default function startServer() {
     }
 
     res.json({ accessToken });
-  });
-
-  apiRouter.get("/protected", authenticateToken, (req, res) => {
-    res.json({ message: "This is a protected route", user: res.locals.user });
   });
 
   openWebSocket(app, database);
