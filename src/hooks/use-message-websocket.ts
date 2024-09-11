@@ -6,17 +6,18 @@ import config from "../lib/utils/config";
 import { useCurrentUserStore } from "../lib/state/current-user";
 
 const useMessageWebSocket = (messageApi: MessageInstance) => {
-  const isAuthorized = useCurrentUserStore((state) => state.isAuthorized);
+  const [isAuthorized, accessToken] = useCurrentUserStore((state) => [
+    state.isAuthorized,
+    state.accessToken,
+  ]);
 
   const chatHistoryActions = useChatHistoryStore(
     (state) => state.chatHistoryActions,
   );
 
-  const accessToken = useCurrentUserStore((state) => state.accessToken);
-
-  const webSocket = useWebSocketStore((state) => state.webSocket);
-  const createWebSocket = useWebSocketStore((state) => state.createWebSocket);
-  const closeWebSocket = useWebSocketStore((state) => state.closeWebSocket);
+  const [webSocket, createWebSocket, closeWebSocket] = useWebSocketStore(
+    (state) => [state.webSocket, state.createWebSocket, state.closeWebSocket],
+  );
 
   const webSocketUrl = config("backendWebSocket");
 
