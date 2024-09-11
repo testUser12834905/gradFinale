@@ -1,10 +1,10 @@
 import { message } from "antd";
 import { type ReactNode } from "react";
-import useMessageServer from "../../hooks/use-message-server";
+import useMessageWebSocket from "../../hooks/use-message-websocket";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const [messageApi, contextHolder] = message.useMessage();
-  useMessageServer(messageApi);
+  useMessageWebSocket(messageApi);
 
   return (
     <>

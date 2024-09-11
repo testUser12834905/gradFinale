@@ -6,18 +6,14 @@ type ProductionConfigKey = keyof ProductionConfig;
 type ProductionConfigValue = ProductionConfig[ProductionConfigKey];
 
 type LocalConfig = typeof localConfigJson;
-type LocalConfigKey = keyof LocalConfig;
-type LocalConfigValue = LocalConfig[LocalConfigKey];
 
-const localConfig: ProductionConfig | LocalConfig = {
+const localConfig: ProductionConfig & LocalConfig = {
   ...productionConfigJson,
   ...localConfigJson,
 };
 
 const createConfig = (env: string = "dev") => {
-  return (
-    key: ProductionConfigKey | LocalConfigKey,
-  ): ProductionConfigValue | LocalConfigValue => {
+  return (key: ProductionConfigKey): ProductionConfigValue => {
     switch (env) {
       case "production":
         return productionConfigJson[key];
