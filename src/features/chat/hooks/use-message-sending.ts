@@ -1,9 +1,9 @@
 import type { WebSocketMessage } from "../../../../shared/types/ws-message";
 import { useCurrentUserStore } from "../../../lib/state/current-user";
-import { useWebSocket } from "../../../lib/state/web-socket";
+import { useWebSocketStore } from "../../../lib/state/web-socket";
 
 const useMessageSending = () => {
-  const webSocket = useWebSocket((state) => state.webSocket);
+  const webSocket = useWebSocketStore((state) => state.webSocket);
   const userID = useCurrentUserStore((state) => state.userID);
 
   return (message: string): boolean => {

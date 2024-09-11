@@ -1,18 +1,7 @@
-import { useEffect } from "react";
 import MainLayout from "./components/templates/main-layout";
+import useInitializeCurrentUser from "./hooks/use-initialize-current-user";
 import Router from "./lib/router";
-import { useCurrentUserStore } from "./lib/state/current-user";
 
-export function useInitializeCurrentUser() {
-  const initializeStore = useCurrentUserStore((state) => state.initializeStore);
-  const isLoading = useCurrentUserStore((state) => state.isLoading);
-
-  useEffect(() => {
-    initializeStore();
-  }, [initializeStore]);
-
-  return isLoading;
-}
 const App = () => {
   const isLoading = useInitializeCurrentUser();
 

@@ -1,5 +1,5 @@
 import path from "path";
-import { DataTypes, Model, QueryTypes, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize } from "sequelize";
 import type { ChatMessage } from "../../shared/types/chat-message";
 import type { User } from "../auth/generate-tokens";
 

@@ -1,7 +1,7 @@
 import type { MessageInstance } from "antd/es/message/interface";
 import { useCallback, useEffect } from "react";
 import { useChatHistory } from "../lib/state/chat-history";
-import { useWebSocket } from "../lib/state/web-socket";
+import { useWebSocketStore } from "../lib/state/web-socket";
 import config from "../lib/utils/config";
 import { useCurrentUserStore } from "../lib/state/current-user";
 
@@ -15,9 +15,9 @@ const useMessageServer = (messageApi: MessageInstance) => {
 
   const accessToken = useCurrentUserStore((state) => state.accessToken);
 
-  const webSocket = useWebSocket((state) => state.webSocket);
-  const createWebSocket = useWebSocket((state) => state.createWebSocket);
-  const closeWebSocket = useWebSocket((state) => state.closeWebSocket);
+  const webSocket = useWebSocketStore((state) => state.webSocket);
+  const createWebSocket = useWebSocketStore((state) => state.createWebSocket);
+  const closeWebSocket = useWebSocketStore((state) => state.closeWebSocket);
 
   const webSocketUrl = config("backendWebSocket");
 
@@ -32,7 +32,7 @@ const useMessageServer = (messageApi: MessageInstance) => {
     }
 
     return () => {
-      closeWebSocket(messageApi);
+      closeWebSocket();
     };
   }, [webSocketUrl, isAuthorized, isAuthorized]);
 
