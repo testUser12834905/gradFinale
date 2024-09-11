@@ -1,6 +1,7 @@
 import { del, get, set } from "idb-keyval";
 import { jwtDecode } from "jwt-decode";
-import type { CurrentUserState } from "../state/current-user";
+import type { CurrentUserState } from "../state/current-user/types";
+import { api } from "../api";
 
 type UserSession = {
   accessToken: string;
@@ -8,7 +9,6 @@ type UserSession = {
 };
 
 export const persistUserSession = async (userSession: UserSession) => {
-  console.log("persist", userSession);
   await set("user-session", userSession);
 };
 
@@ -35,7 +35,20 @@ export const retrieveUserSession = async (): Promise<CurrentUserState> => {
 
   const decryptedAccessToken = jwtDecode(userSession.accessToken);
   if (now > decryptedAccessToken.exp!) {
-    // get new access token
+    let newAccessToken: Partial<{ accessToken: string }> = { accessToken: "" };
+
+    try {
+      newAccessToken = await api({
+        apiAction: "refresh-token",
+        body: { refreshToken: userSession.refreshToken },
+      });
+    } catch (error) {
+      console.error(error);
+      return currentUserState;
+    }
+    currentUserState.accessToken = newAccessToken.accessToken || "";
+  } else {
+    currentUserState.accessToken = userSession.accessToken;
   }
 
   const { userID, username } = decryptedAccessToken as Partial<{
@@ -44,12 +57,10 @@ export const retrieveUserSession = async (): Promise<CurrentUserState> => {
   }>;
 
   currentUserState.isAuthorized = true;
-  currentUserState.accessToken = userSession.accessToken;
   currentUserState.refreshToken = userSession.refreshToken;
   currentUserState.username = username || "";
   currentUserState.userID = userID || "";
 
-  console.log("here4", currentUserState);
   return currentUserState;
 };
 

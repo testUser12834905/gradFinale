@@ -6,7 +6,7 @@ import {
 } from "./constants";
 import type { TokenPayload } from "./generate-tokens";
 
-export const verifyRefreshToken = (refreshToken: string): string | null => {
+export const issueNewAccessToken = (refreshToken: string): string | null => {
   let newAccessToken: string | null = null;
 
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {

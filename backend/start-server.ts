@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import authenticateToken from "./auth/authenticate-token";
 import type { User } from "./auth/generate-tokens";
 import generateTokens from "./auth/generate-tokens";
-import { verifyRefreshToken } from "./auth/verify-token";
+import { issueNewAccessToken } from "./auth/verify-token";
 import { Database } from "./database";
 import openWebSocket from "./web-socket";
 
@@ -69,7 +69,7 @@ export default function startServer() {
       return res.sendStatus(401);
     }
 
-    const accessToken = verifyRefreshToken(refreshToken);
+    const accessToken = issueNewAccessToken(refreshToken);
 
     if (!accessToken) {
       return;

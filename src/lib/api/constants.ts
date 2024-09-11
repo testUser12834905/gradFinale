@@ -13,12 +13,11 @@ export const apiEndpoints = {
     },
   },
   "refresh-token": {
-    route: "/login",
+    route: "/refresh-token",
     method: "POST",
     version: "v1",
     responseType: {} as {
       accessToken: string;
-      refreshToken: string;
     },
   },
 } as const;
