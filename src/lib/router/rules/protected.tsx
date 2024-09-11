@@ -20,7 +20,11 @@ export const ProtectedRule = ({
   return (
     <>
       {isAuthenticated && (
-        <FloatButton.Group trigger="click" icon={<UserOutlined />}>
+        <FloatButton.Group
+          style={{ insetInlineEnd: 30, insetBlockEnd: 75 }}
+          trigger="click"
+          icon={<UserOutlined />}
+        >
           <FloatButton
             onClick={() => navigate("/logout", { replace: true })}
             icon={<LogoutOutlined />}
