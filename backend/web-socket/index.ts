@@ -6,6 +6,7 @@ import type { Database } from "../database";
 import broadcastMessage, { requestRevalidation } from "./broadcast";
 import { authenticateConnection, handleWebSocketMessage } from "./message";
 import { sendInitialState } from "./send";
+import { disconnetTimeout } from "./auth";
 
 type ConnectionItem = {
   connection: ws.WebSocket;
@@ -22,16 +23,7 @@ export default function openWebSocket(
     const connectionItem = { connection, authorized: false };
     const connectionId = uuidv4();
 
-    const timeoutId = setTimeout(() => {
-      const openConnection = openConections.get(connectionId);
-
-      if (openConnection?.authorized) {
-        return;
-      }
-
-      openConnection?.connection.close();
-      openConections.delete(connectionId);
-    }, 10 * SECOND);
+    const timeoutId = disconnetTimeout(connectionId);
 
     openConections.set(connectionId, connectionItem);
     sendInitialState(connection, database);
