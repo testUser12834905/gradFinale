@@ -99,7 +99,6 @@ export class Database {
   async initialize() {
     try {
       await this.createTablesIfNotExist();
-      await this.updateExistingSchema();
       console.log("Database initialization completed successfully.");
     } catch (error) {
       console.error("Error initializing database:", error);
@@ -108,52 +107,7 @@ export class Database {
   }
 
   private async createTablesIfNotExist() {
-    await sequelize.sync({ force: false });
-  }
-
-  private async updateExistingSchema() {
-    const queryInterface = sequelize.getQueryInterface();
-
-    // Update User table
-    if (await this.tableExists("Users")) {
-      const userAttributes = await queryInterface.describeTable("Users");
-      if (!userAttributes.id) {
-        await queryInterface.addColumn("Users", "id", {
-          type: DataTypes.STRING,
-          primaryKey: true,
-          defaultValue: DataTypes.UUIDV4,
-        });
-      }
-    }
-
-    // Update ChatMessage table
-    if (await this.tableExists("ChatMessages")) {
-      const chatMessageAttributes =
-        await queryInterface.describeTable("ChatMessages");
-      if (!chatMessageAttributes.userID) {
-        await queryInterface.addColumn("ChatMessages", "userID", {
-          type: DataTypes.STRING,
-          allowNull: false,
-          references: {
-            model: "Users",
-            key: "id",
-          },
-          onUpdate: "CASCADE",
-          onDelete: "CASCADE",
-        });
-      }
-    }
-  }
-
-  private async tableExists(tableName: string): Promise<boolean> {
-    try {
-      await sequelize.query(`SELECT 1 FROM ${tableName} LIMIT 1;`, {
-        type: QueryTypes.SELECT,
-      });
-      return true;
-    } catch (error) {
-      return false;
-    }
+    await sequelize.sync({ alter: true });
   }
 
   async findUser(username: string): Promise<UserModel | null> {
