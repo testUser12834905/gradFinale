@@ -7,10 +7,19 @@ import generateTokens from "./auth/generate-tokens";
 import { issueNewAccessToken } from "./auth/verify-token";
 import { Database } from "./database";
 import openWebSocket from "./web-socket";
+import cors from "cors";
 
 export default function startServer() {
   const { app } = expressWs(express());
   app.use(express.json());
+
+  if (process.env.NODE_ENV !== "production") {
+    app.use(
+      cors({
+        origin: "http://localhost:5173",
+      }),
+    );
+  }
 
   const database = new Database();
 
