@@ -12,6 +12,7 @@ export const issueNewAccessToken = (refreshToken: string): string | null => {
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) {
       newAccessToken = null;
+      return;
     }
 
     const userData = user as TokenPayload;

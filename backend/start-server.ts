@@ -75,6 +75,7 @@ export default function startServer() {
     const accessToken = issueNewAccessToken(refreshToken);
 
     if (!accessToken) {
+      res.sendStatus(401);
       return;
     }
 
