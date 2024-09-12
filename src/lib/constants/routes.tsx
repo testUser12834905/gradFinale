@@ -16,7 +16,7 @@ export const signedOutUserRoutes: Route[] = [
 ];
 
 export const publicRoutes: Route[] = [
-  { path: "/", element: <>Test kube deployment</> },
+  { path: "/", element: pages.Home },
   { path: "/403", element: pages.Error403 },
   { path: "/500", element: pages.Error500 },
   { path: "*", element: pages.Error404 },

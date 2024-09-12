@@ -3,8 +3,10 @@ import ChatPage from "../../features/chat/ChatPage";
 import LoginPage from "../../features/login/LoginPage";
 import LogoutPage from "../../features/logout/LogoutPage";
 import ErrorPage from "../../features/error/ErrorPage";
+import HomePage from "../../features/home/HomePage";
 
 export const pages: Record<string, ReactNode> = {
+  Home: <HomePage />,
   Chat: <ChatPage />,
   Login: <LoginPage />,
   Logout: <LogoutPage />,
