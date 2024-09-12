@@ -46,7 +46,7 @@ const ChatBubble = ({ content, isCurrentUser, avatar, username }: Props) => {
           {isCurrentUser ? "You" : username}
         </Text>
         <div style={bubbleStyle}>
-          <Text>{content}</Text>
+          <Text ellipsis>{content}</Text>
         </div>
       </Flex>
     </Flex>
